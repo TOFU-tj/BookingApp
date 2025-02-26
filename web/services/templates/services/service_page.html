@@ -1,0 +1,53 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'services/css/service_page.css' %}">
+    <link rel="stylesheet" href="{% static 'main_page/css/navbar.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+    <div class="service-container">
+        <h2>Ваши услуги</h2>
+
+        <div class="service-list">
+            {% for service in services %}
+                <div class="service-item">
+                    <h3>{{ service.name }}</h3>
+                    {% comment %} <p>Описание: {{ service.description }}</p> {% endcomment %}
+                    <p>Цена: {{ service.price|intcomma }}₽</p>
+
+                    <!-- Кнопки действий -->
+                    <div class="service-actions">
+                        <!-- Кнопка редактирования -->
+                        <a href="{% url 'service:service_update' service.pk %}" class="edit-button">
+                            ✏️ Изменить
+                        </a>
+
+                        <!-- Кнопка удаления -->
+                        <form method="POST" action="{% url 'service:service_delete' service.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button" onclick="return confirm('Удалить услугу {{ service.name }}?');">
+                                🗑 Удалить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                <p>У вас еще нет услуг.</p>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'service:service_add' %}" class="add-service-button">Добавить услугу</a>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

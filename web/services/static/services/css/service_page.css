@@ -1,0 +1,203 @@
+/* 🌙 Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+}
+
+/* 📌 Контейнер страницы */
+.service-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎨 Заголовок */
+.service-title {
+    font-size: 3em;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+}
+
+/* 🏷️ Список услуг */
+.service-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Две колонки */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 📦 Карточка услуги */
+.service-item {
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    color: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.4);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Кнопка внизу */
+    min-height: 250px; /* Задаем высоту */
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 75, 43, 0.5);
+}
+
+/* 📜 Название услуги */
+.service-item h3 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* ℹ️ Описание и цена */
+.service-item p {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+}
+
+/* ➕ Кнопка "Добавить услугу" */
+.add-service-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background: linear-gradient(145deg, #FF4B2B, #FF416C);
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-service-button:hover {
+    background: #FF4B2B;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+
+
+
+
+/* 🗑 Кнопка удаления */
+.delete-button {
+    background: linear-gradient(145deg, #e60000, #ff1a1a);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    width: 100%;
+    margin-top: auto; /* Фиксируем кнопку внизу */
+}
+
+.delete-button:hover {
+    background: #ff0000;
+    transform: scale(1.08);
+    box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
+}
+
+.delete-button:active {
+    transform: scale(0.95);
+}
+
+
+.service-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* ✏️ Кнопка редактирования */
+.edit-button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background: #3498db;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.edit-button:hover {
+    background: #2980b9;
+}
+
+/* 🗑 Кнопка удаления */
+.delete-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background: #e74c3c;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delete-button:hover {
+    background: #c0392b;
+}
+
+
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .service-container {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .service-title {
+        font-size: 2.5em;
+    }
+    
+    .service-list {
+        grid-template-columns: repeat(1, 1fr); /* Одна колонка на маленьких экранах */
+    }
+
+    .delete-button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

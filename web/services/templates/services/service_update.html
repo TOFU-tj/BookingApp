@@ -1,0 +1,42 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'services/css/service_update.css' %}">
+    <link rel="stylesheet" href="{% static 'main_page/css/navbar.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block title %}Редактирование услуги{% endblock %}
+
+{% block body %}
+    {% include "main_page/base.html" %}
+    <div class="service-container">
+        <h2 class="service-title">Редактирование услуги</h2>
+
+        <div class="service-card">
+            <form method="POST" class="service-form">
+                {% csrf_token %}
+
+                <label for="id_name">Название услуги:</label>
+                {{ form.name }}
+
+                <label for="id_description">Описание:</label>
+                {{ form.description }}
+
+                <label for="id_price">Цена:</label>
+                {{ form.price }}
+
+                <button type="submit" class="save-button">💾 Сохранить</button>
+            </form>
+
+            <a href="{% url 'service:service_list' %}" class="back-button">🔙 Назад</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'services/js/service_update.js' %}"></script>
+{% endblock %}
+
+

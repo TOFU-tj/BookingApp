@@ -1,0 +1,46 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{%block extra_css%}
+    <link rel="stylesheet" href="{%static 'services/css/service_add.css'%}">
+    <link rel="stylesheet" href="{% static "main_page/css/navbar.css" %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{%endblock%}
+
+{%block title%}
+ 
+{%endblock%}
+
+{% block body %}
+    {% include "main_page/base.html" %}
+    <div class="service-add-container">
+        <h2>Добавить услугу</h2>
+        <form method="POST" enctype="multipart/form-data" class="service-form">
+            {% csrf_token %}
+            
+            <!-- Поле для названия услуги -->
+            <div class="input-group">
+                {{ form.name }}
+            </div>
+
+            <!-- Поле для цены -->
+            <div class="input-group">
+                {{ form.price|intcomma  }}
+            </div>
+
+            <!-- Поле для описания -->
+            <div class="input-group">
+                {{ form.description }}
+            </div>
+
+            <!-- Кнопка отправки -->
+            <a href="{%url 'service:service_list'%}"></a>
+            <button type="submit" class="submit-button">Добавить услугу</button>
+        </form>
+    </div>
+{% endblock %}
+
+{%block extra_js%}
+
+{%endblock%}

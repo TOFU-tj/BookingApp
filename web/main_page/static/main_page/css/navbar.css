@@ -1,0 +1,163 @@
+/* Сброс стилей */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Основные стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    padding-top: 60px;
+}
+
+/* Фиксированный navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 9999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Логотип */
+.navbar-logo a {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.navbar-logo a:hover {
+    color: #ffd700;
+}
+
+/* Меню */
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-links li {
+    display: inline-block;
+}
+
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    transition: 0.3s;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+.navbar-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffd700;
+}
+
+/* Бургер-меню */
+.burger-menu {
+    display: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: white;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .burger-menu {
+        display: block;
+    }
+
+    .navbar-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 70%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.4s ease-in-out;
+        transform: translateX(100%);
+    }
+
+    .navbar-links.show {
+        transform: translateX(0);
+    }
+
+    .navbar-links a {
+        font-size: 1.2em;
+    }
+}
+
+/* Dropdown меню */
+/* Dropdown меню */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Основной стиль выпадающего списка */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Чтобы меню появлялось прямо под кнопкой */
+    left: 50%; /* Центрируем относительно кнопки */
+    transform: translateX(-50%); /* Корректируем позицию по центру */
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 5px;
+    padding: 10px 0;
+}
+
+/* Стили для пунктов меню */
+.dropdown-menu li {
+    list-style: none;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+/* Ссылки внутри dropdown */
+.dropdown-menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    transition: 0.3s;
+}
+
+/* Эффект при наведении */
+.dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Отображаем меню при наведении */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}

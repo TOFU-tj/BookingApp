@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+{% load humanize %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static "main_page/css/navbar.css" %}">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    {% endblock %}
+   {%block title%}<title>Document</title>{%endblock%}
+</head>
+{%block body%}
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-logo">
+                <a href="#">Наш Сервис</a>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="{%url 'main:main'%}">Главная</a></li>
+                <li><a href="{% url 'service:service_list'%}">Сервисы</a></li>
+                {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#">
+                            <i class='bx bxs-user-circle'></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if user.is_superuser or user.is_staff %}
+                                <li><a href="{% url 'admin:index' %}">ADMIN</a></li>
+                                {% comment %} <li><a href="{% url 'orders:revenue' %}">Расчеты</a></li> {% endcomment %}
+                            {% endif %}
+                            <li><a href="{% url 'user:logout' %}">LOG OUT</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'user:login' %}"><i class='bx bxs-user-circle'></i></a></li>
+                {% endif %}
+            </ul>
+            <div class="burger-menu">
+                <i class='bx bx-menu'></i>
+            </div>
+        </nav>
+    </header>
+</body>
+{%endblock%}
+
+
+
+{% block extra_js %}
+    <script src="{% static 'main_page/js/navbar.js' %}"></script>
+{% endblock extra_js %}
+</body>
+</html>

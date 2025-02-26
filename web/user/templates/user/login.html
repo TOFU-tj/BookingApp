@@ -1,0 +1,36 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'user/css/login.css' %}">
+{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+<body>
+    <div class="login-container">
+        <h2>Вход в аккаунт</h2>
+        <form class="login-form" method="POST">
+            {% csrf_token %}
+        
+            <div class="input-group">
+                {{ form.username }}
+            </div>
+        
+            <div class="input-group">
+                {{ form.password }}
+                <span class="toggle-password" onclick="togglePassword()"></span>
+            </div>            
+        
+            <!-- Добавляем скрытое поле для перенаправления после логина -->
+            <input type="hidden" name="next" value="{% url 'main:main' %}">
+        
+            <button type="submit" class="login-button">LOG IN</button>
+        </form>        
+    </div>
+</body>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'user/js/login.js' %}"></script>
+{% endblock %}

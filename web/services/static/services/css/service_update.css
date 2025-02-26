@@ -1,0 +1,139 @@
+/* 🌙 Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+}
+
+/* 📌 Контейнер страницы */
+.service-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎨 Заголовок */
+.service-title {
+    font-size: 3em;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+    color: #fff; /* Белый цвет для текста, если требуется */
+}
+
+/* 📦 Форма редактирования */
+.service-card {
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    color: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.service-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Стиль для полей ввода */
+.service-form input, .service-form textarea {
+    background: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1.1em;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Кнопка сохранения */
+.save-button {
+    background: linear-gradient(145deg, #FF4B2B, #FF416C);
+    color: white;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-button:hover {
+    background: #FF4B2B;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+/* Кнопка назад */
+.back-button {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #3498db;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.back-button:hover {
+    background: #2980b9;
+}
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .service-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .service-title {
+        font-size: 2.5em;
+    }
+
+    .service-form input,
+    .service-form textarea {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    .save-button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}
