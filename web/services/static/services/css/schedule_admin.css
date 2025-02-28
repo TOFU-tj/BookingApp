@@ -1,0 +1,165 @@
+/* 🌙 Контейнер страницы расписания */
+.schedule-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎨 Заголовок */
+.schedule-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+}
+
+/* 📋 Список расписаний */
+.schedule-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Две колонки */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 🗓️ Карточка расписания */
+.schedule-item {
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    color: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.4);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.schedule-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 75, 43, 0.5);
+}
+
+/* 📅 Дата и время */
+.schedule-date {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* 🏷️ Статус */
+.schedule-status {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+}
+
+/* 🔘 Кнопки управления */
+.schedule-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* 🖊 Кнопка редактирования */
+.edit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #ffb142;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 177, 66, 0.4);
+}
+
+/* 🗑 Кнопка удаления */
+.delete-button {
+    padding: 10px 20px;
+    background: #ff4b2b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.delete-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+}
+
+/* ➕ Кнопка "Добавить расписание" */
+.add-schedule-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background: linear-gradient(145deg, #FF4B2B, #FF416C);
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-schedule-button:hover {
+    background: #FF4B2B;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .schedule-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .schedule-title {
+        font-size: 2.3em;
+    }
+
+    .schedule-list {
+        grid-template-columns: repeat(1, 1fr); /* Одна колонка на маленьких экранах */
+    }
+
+    .edit-button,
+    .delete-button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
+
+    .add-schedule-button {
+        font-size: 1.1em;
+        padding: 12px 25px;
+    }
+}

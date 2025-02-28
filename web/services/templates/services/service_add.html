@@ -16,6 +16,7 @@
     {% include "main_page/base.html" %}
     <div class="service-add-container">
         <h2>Добавить услугу</h2>
+        <br>
         <form method="POST" enctype="multipart/form-data" class="service-form">
             {% csrf_token %}
             
@@ -36,6 +37,7 @@
 
             <!-- Кнопка отправки -->
             <a href="{%url 'service:service_list'%}"></a>
+            <br>
             <button type="submit" class="submit-button">Добавить услугу</button>
         </form>
     </div>

@@ -7,12 +7,16 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 {% endblock %}
 
-{% block title %}Редактирование услуги{% endblock %}
+{% block title %}
+<br>
+<h2>Редактирование услуги</h2>
+
+{% endblock %}
 
 {% block body %}
     {% include "main_page/base.html" %}
     <div class="service-container">
-        <h2 class="service-title">Редактирование услуги</h2>
+        {% comment %} <h2 class="service-title">Редактирование услуги</h2> {% endcomment %}
 
         <div class="service-card">
             <form method="POST" class="service-form">

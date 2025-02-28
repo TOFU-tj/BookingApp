@@ -1,22 +1,50 @@
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from services.forms import ServiceModelForm
+from services.forms import ServiceModelForm, ScheduleModelForm
 from django.views.generic.edit import DeleteView
-from services.models import ServiceModel
+from django.views.generic.list import ListView
+from services.models import ServiceModel, ScheduleModel
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
-class ServiceView(LoginRequiredMixin,TemplateView): 
-    template_name = 'services/service_page.html'
+class ScheduleListView(ListView):
+    template_name = "services/schedule_admin.html"
+    model = ScheduleModel
+    context_object_name = "schedules"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['services'] = ServiceModel.objects.filter(user=self.request.user)
+        context["form"] = ScheduleModelForm()  # Форма для добавления
         return context
+ 
 
+
+class ScheduleCreateView(CreateView):
+    model = ScheduleModel
+    form_class = ScheduleModelForm
+    template_name = "services/schedule_add.html"  
+    success_url = reverse_lazy("service:schedule")
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+    
+
+
+class ServiceView(LoginRequiredMixin, ListView):
+    model = ServiceModel
+    template_name = 'services/service_page.html'
+    context_object_name = 'services'  
+    
+    def get_queryset(self):
+        return ServiceModel.objects.filter(user=self.request.user)
 
 class ServiceAddView(CreateView): 
     template_name = 'services/service_add.html'
@@ -39,11 +67,6 @@ class ServiceDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return ServiceModel.objects.filter(user=self.request.user)
-
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView
-from .models import ServiceModel
-
 
 
 class ServiceUpdateView(UpdateView):

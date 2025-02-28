@@ -1,4 +1,4 @@
-from services.models import ServiceModel
+from services.models import ServiceModel, ScheduleModel
 from django import forms
 
 
@@ -20,3 +20,15 @@ class ServiceModelForm(forms.ModelForm):
         model = ServiceModel
         fields = ['name', 'price', 'description']
     
+
+
+
+
+class ScheduleModelForm(forms.ModelForm):
+    class Meta:
+        model = ScheduleModel
+        fields = ['date', 'time', 'is_available']
+        widgets = {
+            'date': forms.TextInput(attrs={'class': 'datepicker', 'placeholder': 'Выберите дату'}),
+            'time': forms.TextInput(attrs={'class': 'timepicker', 'placeholder': 'Выберите время'}),
+        }

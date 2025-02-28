@@ -1,0 +1,41 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'services/css/schedule_admin.css' %}">
+    <link rel="stylesheet" href="{% static 'main_page/css/navbar.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+    <div class="schedule-container">
+        {% comment %} <h2 class="schedule-title">Ваше расписание</h2> {% endcomment %}
+
+        <div class="schedule-list">
+            {% for schedule in schedules %}
+                <div class="schedule-item">
+                    <h3 class="schedule-date">{{ schedule.date|date:"d.m.Y" }} в {{ schedule.time|time:"H:i" }}</h3>
+                    <p class="schedule-status">
+                        Статус: 
+                        {% if schedule.is_available %}
+                            ✅ Свободно
+                        {% else %}
+                            ❌ Занято
+                        {% endif %}
+                    </p>
+                </div>
+            {% empty %}
+                <p class="empty-message">Расписания пока нет.</p>
+            {% endfor %}
+        </div>
+
+        <a href="{% url 'service:schedule_add' %}" class="add-schedule-button">➕ Добавить расписание</a>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

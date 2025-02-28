@@ -15,3 +15,33 @@ class ServiceModel(models.Model):
     def __str__(self):
         return self.name
 
+
+
+class ScheduleModel(models.Model):
+    date = models.DateField()
+    time = models.TimeField()
+    is_available = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('date', 'time')
+        verbose_name = ("ScheduleModel")
+        verbose_name_plural = ("ScheduleModels")
+
+    def __str__(self):
+        return f"{self.date} {self.time} - {'Свободно' if self.is_available else 'Занято'}"
+    
+    
+
+    
+class BookingModel(models.Model):
+    client_name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20)
+    service = models.ForeignKey(ServiceModel, on_delete=models.CASCADE)
+    schedule = models.ForeignKey(ScheduleModel, on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name = ("BookingModel")
+        verbose_name_plural = ("BookingModels")
+
+    def __str__(self):
+        return f"{self.client_name} записан на {self.service.name} в {self.schedule.date} {self.schedule.time}"
