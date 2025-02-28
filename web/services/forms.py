@@ -1,5 +1,6 @@
-from services.models import ServiceModel, ScheduleModel
+from services.models import ServiceModel
 from django import forms
+from services.models import ServiceModel, WorkSchedule, Appointment  # Исправили импорт
 
 
 class ServiceModelForm(forms.ModelForm):
@@ -23,12 +24,27 @@ class ServiceModelForm(forms.ModelForm):
 
 
 
-
-class ScheduleModelForm(forms.ModelForm):
+class WorkScheduleForm(forms.ModelForm):
     class Meta:
-        model = ScheduleModel
-        fields = ['date', 'time', 'is_available']
+        model = WorkSchedule
+        fields = ['day_of_week', 'start_time', 'end_time', 'is_available']
         widgets = {
-            'date': forms.TextInput(attrs={'class': 'datepicker', 'placeholder': 'Выберите дату'}),
-            'time': forms.TextInput(attrs={'class': 'timepicker', 'placeholder': 'Выберите время'}),
+            'day_of_week': forms.Select(attrs={'class': 'form-control'}),
+            'start_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'end_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'is_available': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['date', 'time', 'client_name', 'client_phone']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}),
+            'client_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Телефон'}),
+        }
+

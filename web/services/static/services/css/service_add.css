@@ -1,71 +1,79 @@
-/* Общий контейнер */
-.schedule-add-container {
-    max-width: 500px;
+/* 🌙 Контейнер формы */
+.service-add-container {
+    max-width: 600px;
     margin: 50px auto;
     padding: 30px;
     background: #1a1a1a;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(255, 75, 43, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
     text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
 }
 
-/* Заголовок */
-.schedule-add-title {
-    font-size: 2em;
+/* 🎨 Заголовок */
+.service-add-title {
+    margin-top: 10px;
+    font-size: 2.8em;
     font-weight: 700;
-    color: #ff4b2b;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 40px; /* Увеличили отступ */
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+}
+
+/* 📜 Поля ввода */
+.input-group {
     margin-bottom: 20px;
 }
 
-/* Поля ввода */
-.input-group {
-    margin-bottom: 15px;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1em;
-    cursor: pointer;
-}
-
-/* Чекбокс */
-.checkbox-group {
-    margin: 15px 0;
-}
-
-.checkbox-group label {
-    font-size: 1.2em;
-    color: white;
-    margin-left: 10px;
-}
-
-/* Кнопка */
-.submit-button {
-    background: #FF4B2B;
-    color: white;
-    padding: 12px 20px;
+input, textarea {
+    width: 90%;
+    padding: 14px;
     border: none;
     border-radius: 10px;
+    background: #2c2c2c;
+    color: #fff;
     font-size: 1.2em;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 5px 10px rgba(255, 75, 43, 0.2);
+}
+
+input:focus, textarea:focus {
+    border: none;
+    outline: none;
+    background: #3b3b3b;
+    box-shadow: 0 0 10px rgba(255, 75, 43, 0.5);
+}
+
+/* 🔘 Кнопка отправки */
+.submit-button {
+    display: inline-block;
+    padding: 14px 30px;
+    background: linear-gradient(145deg, #FF4B2B, #FF416C);
+    color: white;
+    border: none;
     cursor: pointer;
-    transition: 0.3s;
+    border-radius: 12px;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .submit-button:hover {
-    background: #e52e71;
+    background: #FF4B2B;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    .schedule-add-container {
-        width: 90%;
-        padding: 20px;
-    }
+.submit-button:active {
+    transform: scale(0.95);
 }
-
 
 /* 🎨 Анимация появления */
 @keyframes fadeIn {

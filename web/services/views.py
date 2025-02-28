@@ -1,41 +1,79 @@
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from services.forms import ServiceModelForm, ScheduleModelForm
+from services.forms import ServiceModelForm, WorkScheduleForm, AppointmentForm
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
-from services.models import ServiceModel, ScheduleModel
+from services.models import ServiceModel, WorkSchedule, Appointment
+
+
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
-class ScheduleListView(ListView):
-    template_name = "services/schedule_admin.html"
-    model = ScheduleModel
-    context_object_name = "schedules"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = ScheduleModelForm()  # Форма для добавления
-        return context
- 
+from django.http import JsonResponse
 
 
-class ScheduleCreateView(CreateView):
-    model = ScheduleModel
-    form_class = ScheduleModelForm
-    template_name = "services/schedule_add.html"  
-    success_url = reverse_lazy("service:schedule")
+
+class WorkScheduleCreateView(LoginRequiredMixin, CreateView):
+    model = WorkSchedule
+    form_class = WorkScheduleForm
+    template_name = "services/work_schedule.html"  
+    success_url = reverse_lazy("service:schedule_list")
 
     def form_valid(self, form):
+        form.instance.user = self.request.user  # Привязываем к авторизованному пользователю
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
 
 
+
+class WorkScheduleListView(LoginRequiredMixin, ListView):
+    model = WorkSchedule
+    template_name = "services/schedule_list.html"
+    context_object_name = "schedules"
+
+    def get_queryset(self):
+        return WorkSchedule.objects.filter(user=self.request.user) 
+
+
+
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from .models import WorkSchedule
+
+class WorkScheduleDelete(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        schedule = get_object_or_404(WorkSchedule, pk=kwargs["pk"])
+
+        schedule.delete()
+        
+        return redirect('service:schedule_list')
+
+
+
+# class AppointmentCreateView(CreateView):
+#     model = Appointment
+#     form_class = AppointmentForm
+#     template_name = "services/appointment_form.html"  
+#     success_url = reverse_lazy("service:schedule_list")
     
+
+#     def form_valid(self, form):
+#         master = form.cleaned_data['master']
+#         date = form.cleaned_data['date']
+#         time = form.cleaned_data['time']
+
+#         # Проверяем, занято ли уже это время
+#         if Appointment.objects.filter(master=master, date=date, time=time).exists():
+#             return JsonResponse({"success": False, "error": "Это время уже занято!"}, status=400)
+
+#         return super().form_valid(form)
+
+
+
 
 
 class ServiceView(LoginRequiredMixin, ListView):

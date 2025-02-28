@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ModelViewSet
-from services.models import ServiceModel, BookingModel, ScheduleModel
+from services.models import ServiceModel
 from services.serializers import ServiceModelSerializer
 from rest_framework.permissions import IsAdminUser
 # from rest_framework.permissions import IsAuthenticatedOrReadOnly

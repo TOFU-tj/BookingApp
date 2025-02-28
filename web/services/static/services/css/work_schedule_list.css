@@ -1,0 +1,174 @@
+/* 🌙 Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+}
+
+/* 📌 Контейнер списка расписаний */
+.schedule-list-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎨 Заголовок */
+.schedule-list-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+}
+
+/* 📋 Таблица расписаний */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #222;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.3);
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #444;
+    padding: 12px;
+    text-align: center;
+}
+
+.schedule-table th {
+    background: linear-gradient(145deg, #ff4b2b, #e52e71);
+    font-size: 1.2em;
+}
+
+.schedule-table td {
+    font-size: 1.1em;
+}
+
+/* 🌟 Чередование строк */
+.schedule-table tbody tr:nth-child(odd) {
+    background-color: #292929;
+}
+
+.schedule-table tbody tr:nth-child(even) {
+    background-color: #1e1e1e;
+}
+
+/* 🖊 Кнопки редактирования и удаления */
+.edit-btn, .delete-btn {
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    color: white;
+    background: #3498db;
+}
+
+.edit-btn:hover {
+    background: #2980b9;
+}
+
+.delete-btn {
+    color: white;
+    background: #e74c3c;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+/* ➕ Сообщение об отсутствии расписания */
+.no-schedule-msg {
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.no-schedule-msg a {
+    color: #ff4b2b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.no-schedule-msg a:hover {
+    text-decoration: underline;
+}
+/* 🔘 Кнопка "Добавить расписание" */
+/* 🔘 Контейнер кнопки "Добавить расписание" */
+.add-schedule-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 🔘 Кнопка "Добавить расписание" */
+.add-schedule-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #ff4b2b, #ff416c);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+}
+
+.add-schedule-btn:hover {
+    background: #ff4b2b;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .schedule-list-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .schedule-list-title {
+        font-size: 2em;
+    }
+
+    .schedule-table th, .schedule-table td {
+        padding: 10px;
+        font-size: 1em;
+    }
+
+    .edit-btn, .delete-btn {
+        font-size: 16px;
+        padding: 6px 10px;
+    }
+}

@@ -1,14 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
-    flatpickr(".datepicker", {
-        enableTime: false,
-        dateFormat: "Y-m-d",
-        locale: "ru"
-    });
+    document.querySelectorAll(".delete-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let scheduleId = this.getAttribute("data-id");
 
-    flatpickr(".timepicker", {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true
+            fetch(`/services/schedule/delete/${scheduleId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Удалено") {
+                    document.getElementById(`schedule-${scheduleId}`).remove();
+                }
+            })
+            .catch(error => console.error("Ошибка удаления:", error));
+        });
     });
 });

@@ -1,0 +1,67 @@
+/* Общий контейнер */
+.schedule-add-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(255, 75, 43, 0.2);
+    text-align: center;
+}
+
+/* Заголовок */
+.schedule-add-title {
+    font-size: 2em;
+    font-weight: 700;
+    color: #ff4b2b;
+    margin-bottom: 20px;
+}
+
+/* Поля ввода */
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Иконки */
+.input-group i {
+    color: #ff4b2b;
+    font-size: 1.5em;
+    margin-top: 5px;
+}
+
+/* Кнопка */
+.submit-button {
+    background: #FF4B2B;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-button:hover {
+    background: #e52e71;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .schedule-add-container {
+        width: 90%;
+        padding: 20px;
+    }
+}
