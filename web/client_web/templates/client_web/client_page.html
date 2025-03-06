@@ -2,6 +2,8 @@
 {% load static %}
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'client_web/css/client_service.css' %}">
+    <!-- Подключаем jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}
 {% block body %}
 {% include "main_page/base.html" %}
@@ -16,27 +18,35 @@
                         <p class="service-price">Цена: <strong>{{ service.price }} руб.</strong></p>
 
                         <!-- Форма для добавления в корзину -->
-                        <form method="post" action="{% url 'basket:basket_list'%}">
+                        <form method="post" action="{% url 'client:add_to_basket' slug_company=slug_company slug_username=slug_username %}" class="add-to-basket-form">
                             {% csrf_token %}
                             <input type="hidden" name="service_id" value="{{ service.id }}">
-                            <select name="work_schedule_id">
-                            </select>
-                            <button type="submit" class="service-book-btn">Добавить в корзину</button>
+                            <button type="submit" class="service-book-btn" data-service-id="{{ service.id }}">Добавить в корзину</button>
                         </form>
-                        
-                        
-                        
-                        
-                        
-                        
+
+                        <!-- Уведомление -->
+                        <div class="notification" id="notification-{{ service.id }}" style="display:none;">Товар добавлен в корзину!</div>
                     </div>
                 {% endfor %}
             </div>
-
         {% else %}
             <p class="no-services">Услуги не найдены.</p>
         {% endif %}
+
+        
+        <!-- Кнопка "Продолжить" для перехода на страницу корзины -->
+        <div class="continue-button-container">
+            <a href="{% url 'client:basket_list' slug_company=slug_company slug_username=slug_username %}" >
+
+                <button type="button" class="continue-btn">Перейти в корзину</button>
+            </a>
+        </div>
+
     </div>
 {% endblock %}
 {% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'client_web/js/client.js' %}"></script>
 {% endblock extra_js %}
+
+

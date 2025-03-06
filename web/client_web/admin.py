@@ -1,3 +1,4 @@
 from django.contrib import admin
+from client_web.models import Basket
 
-# Register your models here.
+admin.site.register(Basket)

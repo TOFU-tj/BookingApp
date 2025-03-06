@@ -101,6 +101,34 @@ body {
     transform: scale(0.95);
 }
 
+/* Стиль для кнопки "Продолжить" */
+.continue-button-container {
+    margin-top: 30px;
+}
+
+.continue-btn {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #00c851, #007e33);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.continue-btn:hover {
+    background: #00c851;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(0, 200, 81, 0.5);
+}
+
+.continue-btn:active {
+    transform: scale(0.95);
+}
+
+
 /* 🌀 Анимация появления */
 @keyframes fadeIn {
     from {

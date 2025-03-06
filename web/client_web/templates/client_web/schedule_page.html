@@ -1,42 +1,42 @@
-{% comment %} {% extends 'web/base.html' %}
+{% comment %} {% extends "main_page/base.html" %}
 {% load static %}
-
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'client_web/css/working_schedule.css' %}">
+{% endblock %}
 {% block body %}
+{% include "main_page/base.html" %}
     <div class="schedule-container">
-        <h1 class="schedule-title">Расписание работы</h1>
+        <h1 class="schedule-title">Выберите время для услуги</h1>
 
-        <!-- Допустим, ты хочешь предоставить пользователю выбор компании -->
-        <form method="POST" action="{% url 'schedule_by_company' company_name='barbershop' %}">
-            {% csrf_token %}
-            <button class="select-btn" type="submit">Барбершоп</button>
-        </form>
-
-        <form method="POST" action="{% url 'schedule_by_company' company_name='anothercompany' %}">
-            {% csrf_token %}
-            <button class="select-btn" type="submit">Другая компания</button>
-        </form>
-
-        {% if schedule %}
+        {% if work_schedule %}
             <div class="schedule-list">
-                {% for work in schedule %}
-                    <div class="schedule-item {% if not work.is_available %}disabled{% endif %}">
-                        <h2 class="schedule-date">{{ work.schedule_date }}</h2>
-                        <p class="schedule-time">
-                            Время: <strong>{{ work.start_time }} - {{ work.end_time }}</strong>
-                        </p>
-                        <p class="schedule-status">
-                            Статус: 
-                            {% if work.is_available %}
-                                <span class="available">✅ Рабочий день</span>
+                {% for schedule in work_schedule %}
+                    <div class="schedule-item {% if schedule.is_available == False %}not-available{% elif schedule.is_disabled == True %}disabled{% endif %}">
+                        <p class="schedule-date">{{ schedule.schedule_date }}</p>
+                        <p class="schedule-time">{{ schedule.start_time }} - {{ schedule.end_time }}</p>
+                        <p class="schedule-status {% if schedule.is_available == False %}not-available{% else %}available{% endif %}">
+                            {% if schedule.is_available == False %}
+                                Выходной
                             {% else %}
-                                <span class="not-available">❌ Выходной</span>
+                                Доступно
                             {% endif %}
                         </p>
+
+                        <!-- Кнопка для выбора времени -->
+                        {% if schedule.is_available %}
+                            <form method="post" action="{% url 'client:add_to_basket' slug_company=slug_company slug_username=slug_username %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="work_schedule_id" value="{{ schedule.id }}">
+                                <button type="submit" class="select-btn {% if schedule.is_selected %}selected{% endif %}">Выбрать время</button>
+                            </form>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="no-schedule">Нет доступного расписания.</p>
+            <p class="no-schedule">Нет доступных рабочих времён.</p>
         {% endif %}
     </div>
+{% endblock %}
+{% block extra_js %}
 {% endblock %} {% endcomment %}

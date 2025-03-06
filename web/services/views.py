@@ -10,14 +10,15 @@ from django.views import View
 
 
 
-class WorkScheduleCreateView(LoginRequiredMixin, CreateView):
+class WorkScheduleCreateView(CreateView):
     model = WorkSchedule
     form_class = WorkScheduleForm
     template_name = "services/work_schedule.html"  # Шаблон с календарем
     success_url = reverse_lazy("service:schedule_list")
 
     def form_valid(self, form):
-        form.instance.user = self.request.user  
+        form.instance.user = self.request.user
+        form.instance.is_available = True  # Устанавливаем значение True для рабочего дня
         return super().form_valid(form)
 
 
@@ -28,6 +29,8 @@ class WorkScheduleListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         return WorkSchedule.objects.filter(user=self.request.user) 
+
+
 
 
 

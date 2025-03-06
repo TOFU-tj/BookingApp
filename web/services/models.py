@@ -20,15 +20,22 @@ class ServiceModel(models.Model):
 
 
 class WorkSchedule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  
-    schedule_date = models.DateField()  
-    start_time = models.TimeField()  
-    end_time = models.TimeField()    
-    is_available = models.BooleanField(default=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    schedule_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    is_available = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        # Автоматически устанавливаем is_available как True для нового расписания
+        if self.is_available is False:  # Если не указано, то по умолчанию рабочий день
+            self.is_available = True
+        super(WorkSchedule, self).save(*args, **kwargs)
 
     def __str__(self):
         status = "✅ Рабочий" if self.is_available else "❌ Выходной"
         return f"{self.user} - {self.schedule_date}: {self.start_time} - {self.end_time} ({status})"
+
 
 
 class Appointment(models.Model):

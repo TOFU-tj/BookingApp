@@ -23,11 +23,11 @@
                 
                 {% comment %} <li><a href="{% url 'client:client_services'%}">Клиентский сервер</a></li> {% endcomment %}
                 {% if user.is_authenticated %}
-                <li><a href="{%url 'main:main'%}">Главная</a></li>
+                
                 <li><a href="{% url 'service:service_list'%}">Сервисы</a></li>
                 <li><a href="{%url 'main:generate_link'%}">generate_link</a></li>
                 <li><a href="{% url 'service:schedule_list'%}">Расписание</a></li>
-                <li><a href="{% url 'basket:basket_list'%}">Расписание</a></li>
+
                     
                     <li class="dropdown">
                         <a href="#">
