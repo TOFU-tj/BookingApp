@@ -1,0 +1,19 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'main_page/css/link.css' %}">
+{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+    <div class="container">
+        <h1>Ссылка для ваших клиентов:</h1>
+        <p>Поделитесь этой ссылкой с вашими клиентами:</p>
+        <input type="text" value="{{ link }}" readonly>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
+

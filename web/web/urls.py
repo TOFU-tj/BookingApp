@@ -14,7 +14,7 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('services/', include('services.urls', namespace='services')),
     
-    path ('client_web_page', include('client_web.urls', namespace='client')),
+    path ('client_web_page/', include('client_web.urls', namespace='client_web')),
     
     path('api/', include('api.urls')), 
     path('api-token-auth/', obtain_auth_token)

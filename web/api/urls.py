@@ -5,14 +5,8 @@ from rest_framework import routers
 
 app_name = 'api'  
 
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-
-router.register(r'services/(?P<username>[\w-]+)/(?P<company_slug>[\w-]+)', ServiceListAPIView, basename='service')
-router.register(r'work-schedule/(?P<username>[\w-]+)/(?P<company_slug>[\w-]+)', WorkScheduleApiView, basename='work_schedule')
 
 urlpatterns = [
-    path('', include(router.urls)), 
+    path('service/<str:username>/<slug:company_slug>/', ServiceListAPIView.as_view({'get': 'list', 'post': 'create'}), name='service-list'),
+    path('work/<str:username>/<slug:company_slug>/', WorkScheduleApiView.as_view({'get': 'list', 'post': 'create'}), name='work-schedule'),
 ]

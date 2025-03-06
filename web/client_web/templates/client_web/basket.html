@@ -1,0 +1,26 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'client_basket/css/cart.css' %}">
+{% endblock %}
+{% block body %}
+    <h1>Ваша корзина</h1>
+
+    {% if basket %}
+        <ul>
+            {% for item in basket %}
+                <li>
+                    {{ item.service.name }} - {{ item.work_schedule.schedule_date }} в {{ item.work_schedule.start_time }}
+                    (Кол-во: {{ item.quantity }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Корзина пуста</p>
+    {% endif %}
+
+    <a href="{% url 'main:main' %}">Вернуться на главную</a>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
