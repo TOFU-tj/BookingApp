@@ -1,0 +1,42 @@
+{% comment %} {% extends 'web/base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="schedule-container">
+        <h1 class="schedule-title">Расписание работы</h1>
+
+        <!-- Допустим, ты хочешь предоставить пользователю выбор компании -->
+        <form method="POST" action="{% url 'schedule_by_company' company_name='barbershop' %}">
+            {% csrf_token %}
+            <button class="select-btn" type="submit">Барбершоп</button>
+        </form>
+
+        <form method="POST" action="{% url 'schedule_by_company' company_name='anothercompany' %}">
+            {% csrf_token %}
+            <button class="select-btn" type="submit">Другая компания</button>
+        </form>
+
+        {% if schedule %}
+            <div class="schedule-list">
+                {% for work in schedule %}
+                    <div class="schedule-item {% if not work.is_available %}disabled{% endif %}">
+                        <h2 class="schedule-date">{{ work.schedule_date }}</h2>
+                        <p class="schedule-time">
+                            Время: <strong>{{ work.start_time }} - {{ work.end_time }}</strong>
+                        </p>
+                        <p class="schedule-status">
+                            Статус: 
+                            {% if work.is_available %}
+                                <span class="available">✅ Рабочий день</span>
+                            {% else %}
+                                <span class="not-available">❌ Выходной</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-schedule">Нет доступного расписания.</p>
+        {% endif %}
+    </div>
+{% endblock %} {% endcomment %}

@@ -1,0 +1,135 @@
+/* 🌙 Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+}
+
+/* 📌 Контейнер страницы */
+.service-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎨 Заголовок */
+.service-title {
+    font-size: 3em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+}
+
+/* 🏷️ Список услуг */
+.service-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 📦 Карточка услуги */
+.service-item {
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    color: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.4);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 250px;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 75, 43, 0.5);
+}
+
+/* 📜 Название услуги */
+.service-name {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* ℹ️ Описание и цена */
+.service-price {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.service-description {
+    font-size: 1.2em;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+/* 🔥 Кнопка записи */
+.service-book-btn {
+    padding: 12px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #ff4b2b, #ff416c);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-book-btn:hover {
+    background: #ff4b2b;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+.service-book-btn:active {
+    transform: scale(0.95);
+}
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .service-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .service-title {
+        font-size: 2.5em;
+    }
+
+    .service-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .service-book-btn {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+}

@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'user',
     
     'client_web',  
+    'client_basket',
+    
+    
+    
     'api'
 ]
 

@@ -22,6 +22,7 @@
                 <li><a href="{%url 'main:main'%}">Главная</a></li>
                 <li><a href="{% url 'service:service_list'%}">Сервисы</a></li>
                 <li><a href="{% url 'service:schedule_list'%}">Расписание</a></li>
+                <li><a href="{% url 'client:client_services'%}">client</a></li>
                 {% if user.is_authenticated %}
                     <li class="dropdown">
                         <a href="#">

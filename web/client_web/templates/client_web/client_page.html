@@ -1,0 +1,39 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'client_web/css/client_service.css' %}">
+{% endblock %}
+{% block body %}
+{% include "main_page/base.html" %}
+    <div class="service-container">
+        <h1 class="service-title">Список услуг</h1>
+
+        {% if services %}
+            <div class="service-list">
+                {% for service in services %}
+                    <div class="service-item">
+                        <h2 class="service-name">{{ service.name }}</h2>
+                        <p class="service-price">Цена: <strong>{{ service.price }} руб.</strong></p>
+
+                        <!-- Форма для добавления в корзину -->
+                        {% comment %} <form method="post" action="{% url 'basket:add_to_cart' %}"> {% endcomment %}
+                            {% csrf_token %}
+                            <input type="hidden" name="service_id" value="{{ service.id }}">
+                            <input type="hidden" name="service_name" value="{{ service.name }}">
+                            <input type="hidden" name="service_price" value="{{ service.price }}">
+                            <button type="submit" class="service-book-btn">Добавить в корзину</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+            {% comment %} <a href="{%url 'services:schedule'%}"> {% endcomment %}
+                <button></button>
+            </a>
+        {% else %}
+            <p class="no-services">Услуги не найдены.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script src="{%static "web/js/base.js"%}"></script>
+{% endblock extra_js %}
