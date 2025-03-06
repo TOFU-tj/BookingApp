@@ -1,6 +1,6 @@
 from services.models import ServiceModel
 from django import forms
-from services.models import ServiceModel, WorkSchedule, Appointment  # Исправили импорт
+from services.models import ServiceModel, WorkSchedule, Appointment  
 
 
 class ServiceModelForm(forms.ModelForm):
@@ -23,18 +23,16 @@ class ServiceModelForm(forms.ModelForm):
     
 
 
-
 class WorkScheduleForm(forms.ModelForm):
     class Meta:
         model = WorkSchedule
-        fields = ['day_of_week', 'start_time', 'end_time', 'is_available']
+        fields = ['schedule_date', 'start_time', 'end_time', 'is_available']
         widgets = {
-            'day_of_week': forms.Select(attrs={'class': 'form-control'}),
-            'start_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            'end_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            'is_available': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'schedule_date': forms.SelectDateWidget(attrs={'class': 'form-control'}),  
+            'start_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),  
+            'end_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),  
+            'is_available': forms.CheckboxInput(attrs={'class': 'form-check-input'}),  
         }
-
 
 
 class AppointmentForm(forms.ModelForm):

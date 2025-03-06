@@ -4,6 +4,7 @@ from .views import (
     WorkScheduleCreateView, WorkScheduleListView, WorkScheduleDelete
 )
 
+
 app_name = 'service'
 
 urlpatterns = [

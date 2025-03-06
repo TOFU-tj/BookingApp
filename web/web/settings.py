@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     
     'main_page', 
     'services', 
-    'user', 
+    'user',
+    
+    'client_web',  
     'api'
 ]
 
@@ -142,7 +144,7 @@ LOGIN_REDIRECT_URL = '/'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Разрешить всем пользователям доступ
+    ]
 }

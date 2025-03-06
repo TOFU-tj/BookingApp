@@ -13,7 +13,7 @@
             <table class="schedule-table">
                 <thead>
                     <tr>
-                        <th>День недели</th>
+                        <th>Дата</th>
                         <th>Начало работы</th>
                         <th>Окончание работы</th>
                         <th>Действия</th>
@@ -22,7 +22,7 @@
                 <tbody>
                     {% for schedule in schedules %}
                         <tr id="schedule-{{ schedule.id }}">
-                            <td>{{ schedule.get_day_of_week_display }}</td>
+                            <td>{{ schedule.schedule_date }}</td>  <!-- отображение даты -->
                             <td>{{ schedule.start_time }}</td>
                             <td>{{ schedule.end_time }}</td>
                             <td>
@@ -48,7 +48,6 @@
         {% endif %}
     </div>
 {% endblock %}
-
 
 {% block extra_js %}
     <script src="{% static 'services/js/schedule.js' %}"></script>
