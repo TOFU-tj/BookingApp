@@ -1,0 +1,67 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'client_web/css/user_form.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="form-container">
+        <h1 class="form-title">Запись на услугу</h1>
+
+        <!-- Форма записи -->
+        <form method="post" class="user-form">
+            {% csrf_token %}
+            
+            <!-- Имя -->
+            <div class="form-group">
+                <label for="id_name">Ваше имя</label>
+                {{ form.name }}
+            </div>
+
+            <!-- Фамилия -->
+            <div class="form-group">
+                <label for="id_surname">Ваша фамилия</label>
+                {{ form.surname }}
+            </div>
+
+            <!-- Телефон -->
+            <div class="form-group">
+                <label for="id_phone">Телефон</label>
+                {{ form.phone }}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+            </div>
+
+            <!-- Комментарий -->
+            <div class="form-group">
+                <label for="id_text">Комментарий</label>
+                {{ form.text }}
+            </div>
+
+            <!-- Выбор времени -->
+            <div class="form-group">
+                <label for="id_schedule">Выберите время</label>
+                <div class="custom-dropdown">
+                    <button type="button" class="dropdown-btn" id="schedule-btn">Выберите время</button>
+                    <div class="dropdown-content" id="schedule-list">
+                        {% for schedule in schedules %}
+                            <div class="dropdown-item" data-value="{{ schedule.id }}">{{ schedule.start_time }} - {{ schedule.end_time }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <input type="hidden" name="select_schedule" id="schedule-input">
+            </div>
+
+            <button type="submit" class="submit-btn">Записаться</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'client_web/js/user_form.js' %}"></script>
+{% endblock %}

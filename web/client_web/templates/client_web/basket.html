@@ -1,11 +1,13 @@
 {% extends "main_page/base.html" %}
 {% load static %}
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'client_web/css/cart.css' %}">
-{% endblock %}
+{%block extra_css%}
 
+    <link rel="stylesheet" href="{% static 'client_web/css/cart.css' %}">
+    <!-- Подключаем jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{%endblock%}
 {% block body %}
-    {% include "main_page/base.html" %}
     <div class="cart-container">
         <h1 class="cart-title">Ваша корзина</h1>
 
@@ -17,32 +19,26 @@
                         <p class="cart-service-price">Цена: <strong>{{ item.service.price }} руб.</strong></p>
                         <p class="cart-service-quantity">Количество: {{ item.quantity }}</p>
 
-                        <!-- Кнопка удаления из корзины -->
-                        <form method="post" action="{% url 'client:remove' slug_company=slug_company slug_username=slug_username item_id=item.id %}">
+                        <!-- Форма для удаления товара из корзины -->
+                        {% comment %} <form method="post" action="{% url 'client:remove_from_basket' item.id %}"> {% endcomment %}
                             {% csrf_token %}
                             <button type="submit" class="cart-remove-btn">Удалить</button>
                         </form>
-                        
-                        
                     </div>
                 {% endfor %}
             </div>
 
+            <!-- Кнопка для перехода к оформлению -->
             <div class="continue-button-container">
-                <a href="{% url 'client:basket_list' slug_company=slug_company slug_username=slug_username %}" >
-    
+                <a href="{% url 'client:user_form' slug_company=slug_company slug_username=slug_username %}">
                     <button type="button" class="continue-btn">Перейти к оформлению</button>
                 </a>
+                
             </div>
 
-            
         {% else %}
             <p class="empty-cart">Корзина пуста</p>
-            <a href="{% url 'client:client_services' slug_company=slug_company slug_username=slug_username %}" class="checkout-btn">Перейти к услугам</a>
-
         {% endif %}
     </div>
 {% endblock %}
 
-{% block extra_js %}
-{% endblock %}

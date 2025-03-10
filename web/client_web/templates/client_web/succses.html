@@ -1,0 +1,24 @@
+{% extends "main_page/base.html" %}
+
+{% block body %}
+    <div class="success-container">
+        <h1>Спасибо за вашу заявку!</h1>
+
+        <h2>Ваши данные:</h2>
+        <p>Имя: {{ checkout.user.name }}</p>
+        <p>Фамилия: {{ checkout.user.surname }}</p>
+        <p>Телефон: {{ checkout.user.phone }}</p>
+        <p>Email: {{ checkout.user.email }}</p>
+
+        <h2>Вы выбрали следующие услуги:</h2>
+        {% if basket %}
+            <ul>
+                {% for item in basket %}
+                    <li>{{ item.service.name }} - {{ item.quantity }} шт.</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Вы не выбрали услуги.</p>
+        {% endif %}
+    </div>
+{% endblock %}

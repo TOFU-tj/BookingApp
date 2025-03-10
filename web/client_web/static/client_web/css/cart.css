@@ -25,6 +25,7 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
 }
