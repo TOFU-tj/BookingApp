@@ -21,21 +21,30 @@
                         <p class="cart-service-quantity">Количество: {{ item.quantity }}</p>
 
                         <!-- Форма для удаления товара из корзины -->
-                        {% comment %} <form method="post" action="{% url 'client:remove_from_basket' item.id %}"> {% endcomment %}
+                        <form method="post" action="{% url 'client:basket_delete' slug_company=slug_company slug_username=slug_username item_id=item.id %}">
                             {% csrf_token %}
                             <button type="submit" class="cart-remove-btn">Удалить</button>
                         </form>
+
+                        
                     </div>
                 {% endfor %}
             </div>
 
-            <!-- Кнопка для перехода к оформлению -->
+                        <!-- Кнопка для перехода к оформлению -->
             <div class="continue-button-container">
+                            <!-- Кнопка "Вернуться назад" (слева) -->
+                <form action="{% url 'client:client_services' slug_company=slug_company slug_username=slug_username %}" method="get">
+                    <button type="submit" class="back-btn">Вернуться назад</button>
+                </form>
+                        
+                            <!-- Кнопка "Перейти к оформлению" (справа) -->
                 <a href="{% url 'client:user_form' slug_company=slug_company slug_username=slug_username %}" class="checkout-btn">
-                    Перейти к оформлению
+                     Перейти к оформлению
                 </a>
             </div>
 
+            
         {% else %}
             <p class="empty-cart">Корзина пуста</p>
         {% endif %}

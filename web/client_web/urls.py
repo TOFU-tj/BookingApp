@@ -45,6 +45,8 @@ urlpatterns = [
     path('<slug:slug_company>/<slug:slug_username>/add_to_basket/<int:item_id>/', views.add_to_basket, name='add_to_basket'),
     
     path('<slug:slug_company>/<slug:slug_username>/success/', views.SuccessView.as_view(), name='success'),
+    
+    path('<slug:slug_company>/<slug:slug_username>/basket/delete/<int:item_id>/', views.BasketDeleteView.as_view(), name="basket_delete"),
 
 
 ]

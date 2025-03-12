@@ -89,11 +89,44 @@ body {
     transform: scale(0.95);
 }
 
-/* 🛍️ Кнопка оформления заказа */
-/* 🛒 Кнопка "Перейти к оформлению" */
-.checkout-btn {
-    display: inline-block;
+/* 🔥 Контейнер для кнопок */
+.continue-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 20px;
+    padding: 10px 0;
+}
+
+/* 🔙 Кнопка "Вернуться назад" (слева) */
+.back-btn {
+    order: 1;
+    padding: 14px 28px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #ff4b2b, #ff416c);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+}
+
+.back-btn:hover {
+    background: #ff4b2b;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+.back-btn:active {
+    transform: scale(0.95);
+}
+
+/* 🛒 Кнопка "Перейти к оформлению" (справа) */
+.checkout-btn {
+    order: 2;
+    display: inline-block;
     padding: 14px 28px;
     font-size: 1.3em;
     font-weight: bold;
@@ -116,7 +149,6 @@ body {
     transform: scale(0.95);
     box-shadow: 0 5px 10px rgba(0, 200, 81, 0.5);
 }
-
 
 /* 🚫 Текст пустой корзины */
 .empty-cart {
@@ -159,8 +191,18 @@ body {
         font-size: 1.1em;
     }
 
-    .cart-remove-btn, .checkout-btn {
+    .cart-remove-btn, .checkout-btn, .back-btn {
         font-size: 1em;
         padding: 10px 15px;
+    }
+
+    /* 🛠️ Кнопки в одну колонку на маленьких экранах */
+    .continue-button-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .checkout-btn, .back-btn {
+        width: 100%;
     }
 }

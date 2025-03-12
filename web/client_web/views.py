@@ -4,7 +4,7 @@ from services.models import ServiceModel, WorkSchedule
 from client_web.models import Basket, UserForm, SuccessModel, User
 from client_web.forms import UserBlank
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.views import View
 
 
 
@@ -16,13 +16,18 @@ class ClientServicesListView(ListView):
     context_object_name = 'services'
 
     def get_queryset(self):
-        return ServiceModel.objects.all()
+        slug_username = self.kwargs.get('slug_username')  # Получаем исполнителя из URL
+        return ServiceModel.objects.filter(user__username=slug_username)  # Фильтруем услуги по этому пользователю
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['slug_company'] = self.kwargs.get('slug_company', '')
         context['slug_username'] = self.kwargs.get('slug_username', '')
+
+        # Передаём в шаблон текущего исполнителя
+        context['executor'] = get_object_or_404(User, username=self.kwargs['slug_username'])
         return context
+
 
 
 
@@ -32,13 +37,18 @@ class BasketTemplateView(ListView):
     context_object_name = 'basket'
 
     def get_queryset(self):
-        return Basket.objects.all()
+        slug_username = self.kwargs.get('slug_username')  # Определяем исполнителя
+        return Basket.objects.filter(service__user__username=slug_username)  # Фильтруем корзину
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['slug_company'] = self.kwargs.get('slug_company', '')  # Получаем из URL
-        context['slug_username'] = self.kwargs.get('slug_username', '')  # Получаем из URL
+        context['slug_company'] = self.kwargs.get('slug_company', '')  
+        context['slug_username'] = self.kwargs.get('slug_username', '')  
+
+        # Передаём текущего исполнителя
+        context['executor'] = get_object_or_404(User, username=self.kwargs['slug_username'])
         return context
+
 
 
 
@@ -49,25 +59,39 @@ def add_to_basket(request, slug_company, slug_username, item_id):
         request.session.create()
         session_key = request.session.session_key
 
-    # Проверяем, есть ли уже этот сервис в корзине для текущего пользователя
-    basket_item = Basket.objects.filter(session_key=session_key, service=service).first()
+    # Удаляем товары из корзины, если они от другого исполнителя
+    Basket.objects.filter(session_key=session_key).exclude(service__user=service.user).delete()
 
-    if not basket_item:
-        # Если сервис не найден в корзине, создаем новый элемент с указанными параметрами
-        Basket.objects.create(session_key=session_key, service=service, quantity=1)
-    else:
-        # Если сервис уже есть в корзине, увеличиваем его количество
-        basket_item.quantity = 1
+    # Проверяем, есть ли уже этот сервис в корзине
+    basket_item, created = Basket.objects.get_or_create(
+        session_key=session_key,
+        service=service,
+        defaults={'quantity': 1}
+    )
+
+    if not created:
+        basket_item.quantity = 1  
         basket_item.save()
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
+
     
     
+
+
+class BasketDeleteView(View):
+    def post(self, request, slug_company, slug_username, item_id):
+        session_key = request.session.session_key
+        if session_key:
+            Basket.objects.filter(session_key=session_key, id=item_id).delete()
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
     
     
     
     
 from django.urls import reverse_lazy
+
 class UserFormView(CreateView): 
     model = UserForm
     form_class = UserBlank

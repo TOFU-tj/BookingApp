@@ -27,7 +27,7 @@ class UserForm(models.Model):
     email = models.EmailField("Email", unique=False)
     text = models.TextField("Comment", blank=True, null=True)
     select_schedule = models.ForeignKey(WorkSchedule, on_delete=models.CASCADE, blank=True, null=True)
-    Basket = models.ForeignKey(Basket, on_delete=models.CASCADE, blank=True, null=True)
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE, blank=True, null=True)
 
 
     class Meta:
@@ -42,7 +42,7 @@ class UserForm(models.Model):
 
 class SuccessModel(models.Model):
     name = models.ForeignKey(UserForm, on_delete=models.CASCADE)  # Клиент, который записался
-    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)  # Выбранные услуги
+    basket = models.ForeignKey(Basket, on_delete=models.SET_NULL, null=True, blank=True) # Выбранные услуги
     executor = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец компании (исполнитель)
 
     class Meta:

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -27,7 +28,7 @@ class MainViews(LoginRequiredMixin, ListView):
 
     
     
-from django.shortcuts import get_object_or_404
+
 
 def create_appointment(request, slug_company, slug_username):
     """Создает запись клиента к конкретному владельцу компании"""

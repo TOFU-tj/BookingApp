@@ -25,6 +25,11 @@ class WorkSchedule(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_available = models.BooleanField(default=False)
+    
+    class Meta:
+        verbose_name = "Work Schedule"
+        verbose_name_plural = "Work Schedules"
+        ordering = ["schedule_date", "start_time"]
 
     def save(self, *args, **kwargs):
         # Автоматически устанавливаем is_available как True для нового расписания
