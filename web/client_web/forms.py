@@ -22,6 +22,10 @@ class UserBlank(forms.ModelForm):
                 'class': 'input-field', 
                 "placeholder": "Ваша Фамилия"
             }),
+            "phone": forms.TextInput(attrs={
+                'class': 'input-field', 
+                "placeholder": "Ваш телефон"
+            }),
             "email": forms.EmailInput(attrs={
                 'class': 'input-field', 
                 "placeholder": "Ваш Email"

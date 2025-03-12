@@ -27,7 +27,7 @@ class UserForm(models.Model):
     email = models.EmailField("Email", unique=False)
     text = models.TextField("Comment", blank=True, null=True)
     select_schedule = models.ForeignKey(WorkSchedule, on_delete=models.CASCADE, blank=True, null=True)
-    Basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    Basket = models.ForeignKey(Basket, on_delete=models.CASCADE, blank=True, null=True)
 
 
     class Meta:
@@ -36,6 +36,24 @@ class UserForm(models.Model):
 
     def __str__(self):
         return f'basket for {self.name}'
+
+
+
+
+class SuccessModel(models.Model):
+    name = models.ForeignKey(UserForm, on_delete=models.CASCADE)  # Клиент, который записался
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)  # Выбранные услуги
+    executor = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец компании (исполнитель)
+
+    class Meta:
+        verbose_name = ("SuccessModel")
+        verbose_name_plural = ("SuccessModels")
+
+    def __str__(self):
+        return f"Success #{self.id}: {self.name.name} записан к {self.executor.username}"
+
+
+
 
 
 

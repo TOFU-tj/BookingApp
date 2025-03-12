@@ -9,7 +9,6 @@ from django.views import View
 
 
 
-
 class WorkScheduleCreateView(CreateView):
     model = WorkSchedule
     form_class = WorkScheduleForm

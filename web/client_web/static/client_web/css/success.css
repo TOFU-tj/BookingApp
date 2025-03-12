@@ -1,0 +1,114 @@
+/* 🌙 Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+}
+
+/* ✅ Контейнер */
+.success-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 200, 81, 0.3);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎉 Заголовок */
+.success-title {
+    font-size: 2.8em;
+    font-weight: 700;
+    background: linear-gradient(90deg, #00c851, #007e33);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+/* 📝 Блоки информации */
+.user-info, .schedule-info, .basket-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+p, li {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.basket-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* 🔥 Кнопка */
+.continue-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #00c851, #007e33);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.continue-btn:hover {
+    background: #00c851;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(0, 200, 81, 0.5);
+}
+
+.continue-btn:active {
+    transform: scale(0.95);
+}
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .success-container {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .success-title {
+        font-size: 2.4em;
+    }
+
+    h2 {
+        font-size: 1.6em;
+    }
+
+    p, li {
+        font-size: 1.1em;
+    }
+
+    .continue-btn {
+        font-size: 1.1em;
+        padding: 10px 20px;
+    }
+}

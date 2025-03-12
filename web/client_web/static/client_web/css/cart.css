@@ -90,24 +90,33 @@ body {
 }
 
 /* 🛍️ Кнопка оформления заказа */
+/* 🛒 Кнопка "Перейти к оформлению" */
 .checkout-btn {
     display: inline-block;
     margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 1.2em;
+    padding: 14px 28px;
+    font-size: 1.3em;
     font-weight: bold;
+    text-transform: uppercase;
     text-decoration: none;
     color: white;
     background: linear-gradient(145deg, #00c851, #007e33);
-    border-radius: 10px;
+    border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 200, 81, 0.4);
 }
 
 .checkout-btn:hover {
     background: #00c851;
     transform: scale(1.07);
-    box-shadow: 0 10px 20px rgba(0, 200, 81, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 200, 81, 0.6);
 }
+
+.checkout-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 5px 10px rgba(0, 200, 81, 0.5);
+}
+
 
 /* 🚫 Текст пустой корзины */
 .empty-cart {

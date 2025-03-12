@@ -8,6 +8,7 @@
 
 {%endblock%}
 {% block body %}
+
     <div class="cart-container">
         <h1 class="cart-title">Ваша корзина</h1>
 
@@ -30,10 +31,9 @@
 
             <!-- Кнопка для перехода к оформлению -->
             <div class="continue-button-container">
-                <a href="{% url 'client:user_form' slug_company=slug_company slug_username=slug_username %}">
-                    <button type="button" class="continue-btn">Перейти к оформлению</button>
+                <a href="{% url 'client:user_form' slug_company=slug_company slug_username=slug_username %}" class="checkout-btn">
+                    Перейти к оформлению
                 </a>
-                
             </div>
 
         {% else %}
