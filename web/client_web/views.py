@@ -51,7 +51,6 @@ class BasketTemplateView(ListView):
 
 
 
-
 def add_to_basket(request, slug_company, slug_username, item_id):
     service = get_object_or_404(ServiceModel, id=item_id)
     session_key = request.session.session_key
@@ -59,18 +58,18 @@ def add_to_basket(request, slug_company, slug_username, item_id):
         request.session.create()
         session_key = request.session.session_key
 
-    # Удаляем товары из корзины, если они от другого исполнителя
-    Basket.objects.filter(session_key=session_key).exclude(service__user=service.user).delete()
+    executor = get_object_or_404(User, username=slug_username)
 
-    # Проверяем, есть ли уже этот сервис в корзине
+    # Проверяем, есть ли уже эта услуга в корзине
     basket_item, created = Basket.objects.get_or_create(
         session_key=session_key,
         service=service,
+        executor=executor,  # Привязываем корзину к конкретному специалисту
         defaults={'quantity': 1}
     )
 
     if not created:
-        basket_item.quantity = 1  
+        basket_item.quantity += 1
         basket_item.save()
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
@@ -99,7 +98,13 @@ class UserFormView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["schedules"] = WorkSchedule.objects.filter(is_available=True)
+
+        # 🔥 Определяем текущего исполнителя (executor) по slug_username
+        executor = get_object_or_404(User, username=self.kwargs["slug_username"])
+
+        # ✅ Фильтруем только расписания этого исполнителя
+        context["schedules"] = WorkSchedule.objects.filter(is_available=True, user=executor)
+
         return context
 
     def form_valid(self, form):
@@ -123,7 +128,6 @@ class UserFormView(CreateView):
 
         return super().form_valid(form)
 
-
     def get_success_url(self):
         return reverse_lazy(
             'client:success', 
@@ -132,6 +136,10 @@ class UserFormView(CreateView):
                 "slug_username": self.kwargs["slug_username"],
             }
         )
+
+
+
+
 
 
 class SuccessView(ListView): 
