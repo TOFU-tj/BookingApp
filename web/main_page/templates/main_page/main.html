@@ -7,37 +7,39 @@
 
 {% block body %}
 {% include "main_page/base.html" %}
-
     <div class="record-container">
-        <h2 class="record-title">📌 Запись клиента</h2>
+        <h2 class="record-title">📌 Все записи клиентов</h2>
 
-        <div class="record-info">
-            <h3>👤 Данные клиента:</h3>
-            <p><strong>Имя:</strong> {{ user.name }}</p>
-            <p><strong>Фамилия:</strong> {{ user.surname }}</p>
-            <p><strong>Телефон:</strong> {{ user.phone }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-        </div>
+        {% if records %}
+            {% for record in records %}
+                <div class="record-card">
+                    <div class="record-info">
+                        <h3>👤 Данные клиента</h3>
+                        <p><strong>Имя:</strong> {{ record.name.name }}</p>
+                        <p><strong>Фамилия:</strong> {{ record.name.surname }}</p>
+                        <p><strong>Телефон:</strong> {{ record.name.phone }}</p>
+                        <p><strong>Email:</strong> {{ record.name.email }}</p>
+                    </div>
 
-        <div class="record-services">
-            <h3>🛍 Выбранные услуги:</h3>
-            <ul>
-                {% for item in basket_items %}
-                    <li>{{ item.service.name }} — {{ item.quantity }} шт.</li>
-                {% endfor %}
-            </ul>
-        </div>
+                    <div class="record-services">
+                        <h3>🛍 Выбранные услуги</h3>
+                        <ul>
+                            {% for item in record.basket_history %}
+                                <li>{{ item.service }} — {{ item.quantity }} шт. ({{ item.price }})</li>
+                            {% empty %}
+                                <li>Нет услуг.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-        <div class="record-time">
-            <h3>🕒 Дата и время записи:</h3>
-            <p>{{ user.record_time }}</p>
-        </div>
+                    <div class="record-time">
+                        <h3>🕒 Дата и время записи</h3>
+                        <p>{{ record.created_at }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-records">❌ Нет записей клиентов.</p>
+        {% endif %}
     </div>
-
 {% endblock %}
-
-
-{% block extra_js %}
-    
-{% endblock extra_js %}
-

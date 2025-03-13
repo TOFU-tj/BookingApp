@@ -5,7 +5,7 @@ from client_web.models import Basket, UserForm, SuccessModel, User
 from client_web.forms import UserBlank
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-
+from django.contrib import messages
 
 
 
@@ -82,14 +82,16 @@ class BasketDeleteView(View):
     def post(self, request, slug_company, slug_username, item_id):
         session_key = request.session.session_key
         if session_key:
+            # Удаляем только ту корзину, которая принадлежит текущему пользователю
             Basket.objects.filter(session_key=session_key, id=item_id).delete()
         return redirect(request.META.get("HTTP_REFERER", "/"))
-
     
     
     
     
 from django.urls import reverse_lazy
+
+
 
 class UserFormView(CreateView): 
     model = UserForm
@@ -99,10 +101,10 @@ class UserFormView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # 🔥 Определяем текущего исполнителя (executor) по slug_username
+        # Определяем текущего исполнителя (executor) по slug_username
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
 
-        # ✅ Фильтруем только расписания этого исполнителя
+        # Фильтруем только расписания этого исполнителя
         context["schedules"] = WorkSchedule.objects.filter(is_available=True, user=executor)
 
         return context
@@ -113,20 +115,45 @@ class UserFormView(CreateView):
             self.request.session.create()
             session_key = self.request.session.session_key
 
+        # Проверяем, есть ли корзина для текущего session_key
         basket = Basket.objects.filter(session_key=session_key).first()
-        if not basket:
+        if not basket or basket.quantity == 0:  # Добавляем проверку на пустую корзину
+            messages.error(self.request, "Ваша корзина пуста. Добавьте услуги перед оформлением записи.")
             return redirect("client:client_basket", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
 
-        form.instance.basket = basket
+        # Сохраняем форму без связи с корзиной
+        form.instance.session_key = session_key  # Сохраняем session_key
         user_form = form.save()
 
-        # 🔥 Автоматически определяем исполнителя (executor) по slug_username
+        # Автоматически определяем исполнителя (executor) по slug_username
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
 
-        # ✅ Создаем запись в SuccessModel с заполненным executor
-        SuccessModel.objects.create(name=user_form, basket=basket, executor=executor)
+        # Создаем запись в SuccessModel с заполненным executor и session_key
+        success_record = SuccessModel.objects.create(
+            name=user_form,
+            executor=executor,
+            session_key=session_key,
+            basket_history=self._serialize_basket(basket)  # Сохраняем историю корзины
+        )
+
+        # Очищаем корзину после создания записи
+        basket.delete()
+
+        # Обновляем session_key после успешного создания записи
+        if self.request.session.session_key:
+            self.request.session.flush()  # Удаляем текущую сессию
+        self.request.session.create()  # Создаем новую сессию
+
+        # Добавляем сообщение об успехе
+        messages.success(self.request, "Запись успешно создана!")
 
         return super().form_valid(form)
+
+    def _serialize_basket(self, basket):
+        """
+        Преобразует данные корзины в формат JSON.
+        """
+        return [item.serialize() for item in Basket.objects.filter(session_key=basket.session_key)]
 
     def get_success_url(self):
         return reverse_lazy(
@@ -136,12 +163,7 @@ class UserFormView(CreateView):
                 "slug_username": self.kwargs["slug_username"],
             }
         )
-
-
-
-
-
-
+        
 class SuccessView(ListView): 
     model = SuccessModel
     template_name = 'client_web/success.html'
@@ -151,14 +173,94 @@ class SuccessView(ListView):
         session_key = self.request.session.session_key
         if not session_key:
             return SuccessModel.objects.none()
-        return SuccessModel.objects.filter(basket__session_key=session_key).select_related('name', 'basket')
+        return SuccessModel.objects.filter(session_key=session_key).select_related('name', 'executor')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         last_entry = self.get_queryset().last()
         
         if last_entry:
-            context["user"] = last_entry.name  
-            context["basket_items"] = Basket.objects.filter(session_key=self.request.session.session_key)
+            print("Last Entry:", last_entry)  # Отладочная информация
+            print("User Data:", last_entry.name)  # Отладочная информация
+            print("Basket History:", last_entry.basket_history)  # Отладочная информация
+
+            context["user"] = last_entry.name  # Передаем данные пользователя
+            context["basket_items"] = last_entry.basket_history  # Передаем историю корзины
+        else:
+            print("No entries found in SuccessModel.")  # Отладочная информация
 
         return context
+    
+# class UserFormView(CreateView): 
+#     model = UserForm
+#     form_class = UserBlank
+#     template_name = 'client_web/user_form.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+
+#         # 🔥 Определяем текущего исполнителя (executor) по slug_username
+#         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
+
+#         # ✅ Фильтруем только расписания этого исполнителя
+#         context["schedules"] = WorkSchedule.objects.filter(is_available=True, user=executor)
+
+#         return context
+
+#     def form_valid(self, form):
+#         session_key = self.request.session.session_key
+#         if not session_key:
+#             self.request.session.create()
+#             session_key = self.request.session.session_key
+
+#         basket = Basket.objects.filter(session_key=session_key).first()
+#         if not basket:
+#             return redirect("client:client_basket", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
+
+#         form.instance.basket = basket
+#         user_form = form.save()
+
+#         # 🔥 Автоматически определяем исполнителя (executor) по slug_username
+#         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
+
+#         # ✅ Создаем запись в SuccessModel с заполненным executor
+#         SuccessModel.objects.create(name=user_form, basket=basket, executor=executor)
+
+
+
+#         return super().form_valid(form)
+
+#     def get_success_url(self):
+#         return reverse_lazy(
+#             'client:success', 
+#             kwargs={
+#                 "slug_company": self.kwargs["slug_company"],
+#                 "slug_username": self.kwargs["slug_username"],
+#             }
+#         )
+
+
+
+
+
+
+# class SuccessView(ListView): 
+#     model = SuccessModel
+#     template_name = 'client_web/success.html'
+#     context_object_name = 'success_entries'
+
+#     def get_queryset(self):
+#         session_key = self.request.session.session_key
+#         if not session_key:
+#             return SuccessModel.objects.none()
+#         return SuccessModel.objects.filter(basket__session_key=session_key).select_related('name', 'basket')
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         last_entry = self.get_queryset().last()
+        
+#         if last_entry:
+#             context["user"] = last_entry.name  
+#             context["basket_items"] = Basket.objects.filter(session_key=self.request.session.session_key)
+
+#         return context

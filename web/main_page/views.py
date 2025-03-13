@@ -13,52 +13,50 @@ class MainViews(LoginRequiredMixin, ListView):
     context_object_name = "records"
 
     def get_queryset(self):
-        return SuccessModel.objects.filter(executor=self.request.user)  
+        # Фильтруем записи по текущему пользователю (исполнителю)
+        return SuccessModel.objects.filter(executor=self.request.user).select_related('name', 'executor')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        last_record = self.get_queryset().last()  # Берем последнюю запись
-        
-        if last_record:
-            context["user"] = last_record.name  # Данные клиента
-            context["basket_items"] = Basket.objects.filter(session_key=last_record.basket.session_key)  # Все услуги из корзины
-        
+        # Получаем все записи для текущего исполнителя
+        records = self.get_queryset()
+        context["records"] = records
+
         return context
-
     
     
 
 
-def create_appointment(request, slug_company, slug_username):
-    """Создает запись клиента к конкретному владельцу компании"""
-    if request.method == "POST":
-        # Получаем владельца компании (исполнителя)
-        executor = get_object_or_404(User, slug_company=slug_company, slug_username=slug_username)
+# def create_appointment(request, slug_company, slug_username):
+#     """Создает запись клиента к конкретному владельцу компании"""
+#     if request.method == "POST":
+#         # Получаем владельца компании (исполнителя)
+#         executor = get_object_or_404(User, slug_company=slug_company, slug_username=slug_username)
 
-        # Создаем форму клиента
-        user_form = UserForm.objects.create(
-            name=request.POST["name"],
-            surname=request.POST["surname"],
-            phone=request.POST["phone"],
-            email=request.POST["email"]
-        )
+#         # Создаем форму клиента
+#         user_form = UserForm.objects.create(
+#             name=request.POST["name"],
+#             surname=request.POST["surname"],
+#             phone=request.POST["phone"],
+#             email=request.POST["email"]
+#         )
 
-        # Создаем корзину с услугами (если у тебя она как-то иначе заполняется — исправь тут)
-        basket = Basket.objects.create(
-            service_id=request.POST["service_id"],
-            quantity=request.POST["quantity"]
-        )
+#         # Создаем корзину с услугами (если у тебя она как-то иначе заполняется — исправь тут)
+#         basket = Basket.objects.create(
+#             service_id=request.POST["service_id"],
+#             quantity=request.POST["quantity"]
+#         )
 
-        # Создаем запись
-        SuccessModel.objects.create(
-            name=user_form,
-            basket=basket,
-            executor=executor  # Владелец компании
-        )
+#         # Создаем запись
+#         SuccessModel.objects.create(
+#             name=user_form,
+#             basket=basket,
+#             executor=executor  # Владелец компании
+#         )
 
-        return redirect("main:main")  # Перенаправляем на главную страницу
-    return redirect("main:main")  # Если не POST-запрос, просто редиректим
+#         return redirect("main:main")  # Перенаправляем на главную страницу
+#     return redirect("main:main")  # Если не POST-запрос, просто редиректим
 
 
 def generate_client_service_link(request):
