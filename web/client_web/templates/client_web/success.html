@@ -3,36 +3,21 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'client_web/css/success.css' %}">
-    <!-- Подключаем jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock %}
 
 {% block body %}
     <div class="success-container">
         <h1 class="success-title">✅ Запись успешно оформлена!</h1>
 
-        <!-- Данные текущего пользователя -->
-        <div class="user-info">
-            <h2>📌 Ваши данные:</h2>
-            <p><strong>Имя:</strong> {{ user.name }}</p>
-            <p><strong>Фамилия:</strong> {{ user.surname }}</p>
-            <p><strong>Телефон:</strong> {{ user.phone }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
+        <!-- Поздравительное сообщение -->
+        <div class="congratulations-message">
+            <p>Спасибо за вашу запись! Мы свяжемся с вами в ближайшее время для подтверждения.</p>
+            <p>Желаем вам приятного дня! 😊</p>
         </div>
 
-        <!-- Выбранные услуги -->
-        <div class="basket-container">
-            <h2>🛍 Ваша корзина:</h2>
-            <ul>
-                {% for item in basket_items %}
-                    <li>{{ item.service }} — {{ item.quantity }} шт. ({{ item.price }})</li>
-                {% empty %}
-                    <li>Ваша корзина пуста.</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <!-- Кнопка для возврата на главную -->
+        <a href="/">
+            <button class="continue-btn">Вернуться на главную</button>
+        </a>
     </div>
-{% endblock %}
-
-{% block extra_js %}
 {% endblock %}

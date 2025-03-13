@@ -94,6 +94,37 @@
     margin-top: 20px;
 }
 
+/* 🔴 Кнопка удаления */
+.delete-form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.delete-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background-color: #ff4d4d;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.5);
+}
+
+.delete-btn:hover {
+    background-color: #ff1a1a;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 77, 77, 0.7);
+}
+
+.delete-btn:active {
+    transform: scale(0.95);
+}
+
 /* 🌀 Анимации */
 @keyframes fadeIn {
     from {

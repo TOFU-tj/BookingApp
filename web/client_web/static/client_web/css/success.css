@@ -28,27 +28,15 @@ body {
     -webkit-background-clip: text;
 }
 
-/* 📝 Блоки информации */
-.user-info, .schedule-info, .basket-info {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 12px;
+/* 📝 Сообщение */
+.congratulations-message {
     margin-top: 20px;
 }
 
-h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-}
-
-p, li {
-    font-size: 1.2em;
+.congratulations-message p {
+    font-size: 1.4em;
     opacity: 0.9;
-}
-
-.basket-info ul {
-    list-style: none;
-    padding: 0;
+    line-height: 1.6;
 }
 
 /* 🔥 Кнопка */
@@ -99,12 +87,8 @@ p, li {
         font-size: 2.4em;
     }
 
-    h2 {
-        font-size: 1.6em;
-    }
-
-    p, li {
-        font-size: 1.1em;
+    .congratulations-message p {
+        font-size: 1.2em;
     }
 
     .continue-btn {

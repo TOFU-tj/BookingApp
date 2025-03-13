@@ -36,6 +36,12 @@
                         <h3>🕒 Дата и время записи</h3>
                         <p>{{ record.created_at }}</p>
                     </div>
+
+                    <!-- Кнопка удаления -->
+                    <form action="{% url 'main:delete_record' record.pk %}" method="post" class="delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn">❌ Удалить запись</button>
+                    </form>
                 </div>
             {% endfor %}
         {% else %}
@@ -43,3 +49,6 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{%block extra_js%}
+{%endblock%}

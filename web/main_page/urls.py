@@ -10,7 +10,7 @@ urlpatterns = [
     path('client_web_page/<slug:slug_company>/<slug:slug_username>/client_services/', 
          ClientServicesListView.as_view(), name='client_services'),
     path('generate_link/', views.generate_client_service_link, name='generate_link'),
-    # path('client_web_page/<slug:slug_company>/<slug:slug_username>/create_appointment/', 
-    #      views.create_appointment, name='create_appointment'),
+    path('record/<int:pk>/delete/', views.RecordDeleteView.as_view(), name='delete_record'),
+
 ]
 

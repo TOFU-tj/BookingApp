@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
-from django.views.generic.base import TemplateView
+
+from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.views.generic import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
-from client_web.models import Basket, SuccessModel, UserForm, User
+from django.urls import reverse, reverse_lazy
+from client_web.models import SuccessModel
 
 
 class MainViews(LoginRequiredMixin, ListView):
@@ -26,7 +26,18 @@ class MainViews(LoginRequiredMixin, ListView):
         return context
     
     
+class RecordDeleteView(DeleteView):
+    model = SuccessModel
+    template_name = 'main_page/record_confirm_delete.html'  # Шаблон подтверждения удаления
+    context_object_name = 'record'
 
+    def get_success_url(self):
+        # После удаления перенаправляем на главную страницу
+        return reverse_lazy('main:main')
+
+    def get_queryset(self):
+        # Разрешаем удалять только записи текущего исполнителя
+        return SuccessModel.objects.filter(executor=self.request.user)
 
 # def create_appointment(request, slug_company, slug_username):
 #     """Создает запись клиента к конкретному владельцу компании"""

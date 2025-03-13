@@ -97,14 +97,10 @@ class UserFormView(CreateView):
     model = UserForm
     form_class = UserBlank
     template_name = 'client_web/user_form.html'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Определяем текущего исполнителя (executor) по slug_username
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
-
-        # Фильтруем только расписания этого исполнителя
         context["schedules"] = WorkSchedule.objects.filter(is_available=True, user=executor)
 
         return context
@@ -115,31 +111,24 @@ class UserFormView(CreateView):
             self.request.session.create()
             session_key = self.request.session.session_key
 
-        # Проверяем, есть ли корзина для текущего session_key
         basket = Basket.objects.filter(session_key=session_key).first()
-        if not basket or basket.quantity == 0:  # Добавляем проверку на пустую корзину
-            messages.error(self.request, "Ваша корзина пуста. Добавьте услуги перед оформлением записи.")
+        if not basket or basket.quantity == 0:  
             return redirect("client:client_basket", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
-
-        # Сохраняем форму без связи с корзиной
-        form.instance.session_key = session_key  # Сохраняем session_key
+        form.instance.session_key = session_key  
         user_form = form.save()
-
-        # Автоматически определяем исполнителя (executor) по slug_username
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
-
-        # Создаем запись в SuccessModel с заполненным executor и session_key
+        basket_history = self._serialize_basket(basket)
+          
         success_record = SuccessModel.objects.create(
             name=user_form,
             executor=executor,
             session_key=session_key,
-            basket_history=self._serialize_basket(basket)  # Сохраняем историю корзины
+            basket_history=basket_history
         )
 
-        # Очищаем корзину после создания записи
+
         basket.delete()
 
-        # Обновляем session_key после успешного создания записи
         if self.request.session.session_key:
             self.request.session.flush()  # Удаляем текущую сессию
         self.request.session.create()  # Создаем новую сессию
@@ -150,10 +139,16 @@ class UserFormView(CreateView):
         return super().form_valid(form)
 
     def _serialize_basket(self, basket):
-        """
-        Преобразует данные корзины в формат JSON.
-        """
-        return [item.serialize() for item in Basket.objects.filter(session_key=basket.session_key)]
+
+        basket_items = Basket.objects.filter(session_key=basket.session_key)
+        return [
+            {
+                "service": item.service.name,
+                "quantity": item.quantity,
+                "price": str(item.service.price),  # Преобразуем цену в строку для JSON
+            }
+            for item in basket_items
+        ]
 
     def get_success_url(self):
         return reverse_lazy(
@@ -190,6 +185,8 @@ class SuccessView(ListView):
             print("No entries found in SuccessModel.")  # Отладочная информация
 
         return context
+    
+    
     
 # class UserFormView(CreateView): 
 #     model = UserForm
