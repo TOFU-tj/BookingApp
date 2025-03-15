@@ -1,0 +1,37 @@
+# Основные файлы и папки Django
+*.pyc
+__pycache__/
+db.sqlite3
+
+
+
+# Виртуальное окружение
+venv/
+ENV/
+env/
+.venv/
+
+# Логи и кэши
+logs/
+*.log
+.cache/
+
+# Файлы IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Секретные файлы
+.env
+.secret_key
+
+# Другие временные файлы
+*.tmp
+*.swp
+.DS_Store
+
+# Build артефакты
+dist/
+build/
+*.egg-info/

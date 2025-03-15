@@ -6,6 +6,8 @@ from client_web.forms import UserBlank
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
+from django.utils import timezone
+from datetime import timedelta
 
 
 
@@ -38,7 +40,16 @@ class BasketTemplateView(ListView):
 
     def get_queryset(self):
         slug_username = self.kwargs.get('slug_username')  # Определяем исполнителя
-        return Basket.objects.filter(service__user__username=slug_username)  # Фильтруем корзину
+        session_key = self.request.session.session_key  # Получаем session_key текущего пользователя
+
+        if not session_key:
+            return Basket.objects.none()  # Если session_key отсутствует, возвращаем пустой QuerySet
+
+        # Фильтруем корзину по исполнителю и session_key
+        return Basket.objects.filter(
+            service__user__username=slug_username,
+            session_key=session_key
+        ).select_related('service', 'executor')  # Оптимизация запросов
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,7 +66,7 @@ def add_to_basket(request, slug_company, slug_username, item_id):
     service = get_object_or_404(ServiceModel, id=item_id)
     session_key = request.session.session_key
     if not session_key:
-        request.session.create()
+        request.session.create()  # Создаём новую сессию, если её нет
         session_key = request.session.session_key
 
     executor = get_object_or_404(User, username=slug_username)
@@ -75,7 +86,11 @@ def add_to_basket(request, slug_company, slug_username, item_id):
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
     
-    
+
+def clear_old_baskets():
+
+    threshold = timezone.now() - timedelta(minutes=15) 
+    Basket.objects.filter(created_at__lt=threshold).delete()
 
 
 class BasketDeleteView(View):
