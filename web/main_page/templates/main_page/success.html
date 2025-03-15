@@ -1,0 +1,30 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %} 
+    <link rel="stylesheet" href="{% static 'main_page/css/success.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}<title>Главная страница</title>{% endblock %}
+
+{% block body %}
+    <div class="thank-you-section">
+        <h1>Спасибо за вашу заявку!</h1>
+        <p>Мы получили ваше сообщение. Мы свяжемся с вами в ближайшее время.</p>
+        <a href="/">Вернуться на главную</a>
+
+        <!-- Отображение сообщений -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                   <div class="message {{ message.tags }}">
+                       {{ message }}
+                    </div>
+               {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock body %}
+
+

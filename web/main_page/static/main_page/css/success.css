@@ -1,0 +1,89 @@
+/* Общие стили для страницы успеха */
+body {
+    font-family: 'Poppins', sans-serif; /* Шрифт Poppins */
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Темный фон */
+    color: #fff;
+    text-align: center;
+}
+
+/* Блок с благодарностью */
+.thank-you-section {
+    background: linear-gradient(145deg, #FF4B2B, #FF416C); /* Градиентный фон от оранжевого к красному */
+    color: white;
+    padding: 100px 40px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2); /* Мягкая белая тень */
+    animation: fadeInUp 1s ease-out forwards; /* Анимация появления */
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+/* Заголовок на странице благодарности */
+.thank-you-section h1 {
+    font-size: 3em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Текст под заголовком */
+.thank-you-section p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Ссылка "Вернуться на главную" */
+.thank-you-section a {
+    font-size: 1.2em;
+    color: #fdfcfb;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid #4b0000;
+    border-radius: 8px;
+}
+
+
+/* Отображение сообщений */
+.messages {
+    margin-top: 40px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #e0f7fa;
+    color: #00796b;
+    font-size: 1.1em;
+}
+
+.messages .message.success {
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+.messages .message.error {
+    background-color: #ffcdd2;
+    color: #d32f2f;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Эффект для ссылок */
+a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+

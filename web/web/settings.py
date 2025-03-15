@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+DOMAIN_NAME = "http://127.0.0.1:8000"  
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -153,3 +153,16 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',  # Разрешить всем пользователям доступ
     ]
 }
+
+
+
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dickduckover9000@gmail.com'
+EMAIL_HOST_PASSWORD = 'rdkn dirg jqlw kpie'
+
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  

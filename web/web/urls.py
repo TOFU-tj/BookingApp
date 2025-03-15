@@ -3,13 +3,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from main_page.views import MainViews
+from main_page.views import MainPage
 from rest_framework.authtoken.views import obtain_auth_token
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', MainViews.as_view(), name='index'),
+    path('', MainPage.as_view(), name='index'),
     path('', include('main_page.urls', namespace='main')), 
     path('user/', include('user.urls', namespace='user')),
     path('services/', include('services.urls', namespace='services')),

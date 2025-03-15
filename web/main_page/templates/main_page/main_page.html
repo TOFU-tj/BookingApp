@@ -1,0 +1,144 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% block extra_css %} 
+    <link rel="stylesheet" href="{% static 'main_page/css/main_page.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block title %}<title>Главная страница</title>{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+<header class="hero">
+    <h1>Мы - молодая команда профессионалов</h1>
+    <p>Наш продукт помогает вам управлять записями, клиентами и услугами с легкостью.</p>
+</header>
+
+<section id="about" class="about">
+    <h2>О нас</h2>
+    <p>Мы специализируемся на создании удобных инструментов для бизнеса, чтобы автоматизировать процессы и сделать управление легче.</p>
+    <p>Наши решения помогают владельцам бизнеса лучше взаимодействовать с клиентами и управлять услугами.</p>
+    <p>эщкере</p>
+    <p>эщкере</p>
+    <p>эщкере</p>
+</section>
+
+<section id="services" class="services">
+    <h2>Наши услуги</h2>
+    <div class="service-items">
+        <div class="service-item">
+            <i class='bx bx-sitemap'></i>
+            <h3>Автоматизация</h3>
+            <p>Автоматизированное управление записями и клиентами для вашего удобства.</p>
+        </div>
+        <div class="service-item">
+            <i class='bx bx-bullseye'></i>
+            <h3>Оптимизация</h3>
+            <p>Инструменты для улучшения работы с клиентами и процессов в бизнесе.</p>
+        </div>
+        <div class="service-item">
+            <i class='bx bxs-bar-chart-alt-2' ></i>
+            <h3>Аналитика</h3>
+            <p>Генерация отчётов и аналитики для более умного принятия решений.</p>
+        </div>
+        <div class="service-item">
+            <i class='bx bx-task'></i>
+            <h3>Гибкость</h3>
+            <p>Подстройка расписания и сервисов под ваши уникальные требования.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- main_page.html -->
+<section id="contact-us" class="services">
+    <h2>Свяжитесь с нами</h2>
+    <p>Если хотите попробовать наш продукт, заполните форму ниже:</p>
+    <button class="button" onclick="toggleForm()">Оставить заявку</button>
+    <div class="form-container" id="formContainer">
+        <h2>Заполните форму</h2>
+
+        <!-- Вывод сообщений об ошибке или успехе -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Поле "Ваше имя" -->
+            <div class="input-field">
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <ul class="error-list">
+                        {% for error in form.name.errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <!-- Поле "Ваш email" -->
+            <div class="email-field">
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <ul class="error-list">
+                        {% for error in form.email.errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <!-- Поле "О вашем продукте и бизнесе" -->
+            <div class="text-field">
+                {{ form.text }}
+                {% if form.text.errors %}
+                    <ul class="error-list">
+                        {% for error in form.text.errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <a href="{% url 'main:success_page' %}">
+            <button class="button" type="submit">Отправить</button>
+            </a>
+        </form>
+    </div>
+</section>
+
+
+
+
+
+{% endblock %}
+{% block footer %}
+<br>
+<br>
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Наш Сервис. Все права защищены.</p>
+        <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+
+{% block extra_js %}
+    <script src="{% static 'main_page/js/main_page.js' %}"></script>
+{% endblock %}
+ 

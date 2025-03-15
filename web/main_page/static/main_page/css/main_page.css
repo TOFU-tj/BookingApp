@@ -1,0 +1,391 @@
+/* Общие стили для всего тела страницы */
+body {
+    font-family: 'Poppins', sans-serif; /* Шрифт Poppins */
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Темный фон */
+    color: #fff;
+    text-align: center;
+}
+
+/* Геройский блок */
+.hero {
+    background: linear-gradient(to right, #FF4B2B, #FF416C); /* Оранжево-красный градиент */
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 3.5em;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.3em;
+    line-height: 1.6;
+    color: #fff;
+    margin-bottom: 40px;
+}
+
+/* Секцию "О нас" стилизуем */
+.about {
+    background: #1f1f1f; /* Чуть более мягкий тёмный фон */
+    color: #fff;
+    padding: 100px 50px;
+    margin: 60px auto;
+    max-width: 1200px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.15); /* Белая тень */
+    opacity: 0;
+    animation: fadeInUp 0.7s ease-out forwards;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центр по вертикали */
+    align-items: center; /* Центр по горизонтали */
+    text-align: center;
+    height: 400px; /* Фиксированная высота */
+}
+
+/* Эффект при наведении на блок */
+.about:hover {
+    transform: scale(1.02); /* Лёгкое увеличение */
+    box-shadow: 0 15px 50px rgba(255, 255, 255, 0.2);
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Заголовок для секции "О нас" */
+.about h2 {
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #FF4B2B; /* Яркий акцент */
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center; /* Выравнивание по центру */
+}
+
+/* Текст в секции "О нас" */
+.about p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #ccc;
+    max-width: 800px;
+    text-align: center; /* Выравнивание текста */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Эффект при наведении на параграфы */
+.about p:hover {
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+
+/* Секцию "Наши услуги" стилизуем */
+.services {
+    padding: 50px 20px;
+    margin: 60px auto;
+    max-width: 1200px;
+    text-align: center;
+    background-color: transparent; /* Без фона */
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок секции "Наши услуги" */
+.services h2 {
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #FF4B2B;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Используем Grid Layout для сетки 2x2 */
+.service-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 столбца */
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* Каждый элемент услуги */
+.service-item {
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9)); /* Градиентный фон */
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Эффект при наведении на элемент */
+.service-item:hover {
+    transform: translateY(-10px); /* Легкий подъем */
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, rgba(255, 75, 43, 1), rgb(255, 3, 3)); /* Ярче при наведении */
+}
+
+/* Заголовки внутри квадратиков */
+.service-item h3 {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Текст в квадратиках */
+.service-item p {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 1024px) {
+    .service-items {
+        grid-template-columns: repeat(1, 1fr); /* 1 столбец на экранах до 1024px */
+    }
+}
+
+@media (max-width: 768px) {
+    .service-items {
+        grid-template-columns: repeat(1, 1fr); /* 1 столбец на экранах до 768px */
+    }
+}
+
+/* Кнопки */
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #FF4B2B; /* Оранжевый цвет */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #FF416C; /* Более красный оттенок при наведении */
+}
+
+/* Формы */
+.form-container {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: #222;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 1.2s;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    font-size: 1.1em;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #aaa;
+}
+
+/* Эффекты прокрутки для всех секций */
+section {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+section:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+section:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+section:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+section:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+/* Анимация для появления при прокрутке */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Футер */
+.footer {
+    background-color: #121212; /* Темный фон футера */
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #444;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.social-links {
+    margin-top: 20px;
+}
+
+.social-icon {
+    font-size: 24px;
+    color: #fff;
+    margin: 0 15px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #FF4B2B;
+    transform: scale(1.2);
+}
+
+.fab {
+    font-size: 28px;
+}
+
+/* Контейнер для формы */
+
+.form-container {
+    display: none;
+    margin-top: 20px;
+    padding: 30px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    max-width: 700px; /* Увеличим максимальную ширину */
+    margin: 20px auto;
+    opacity: 0;
+    animation: slideInUp 0.3s ease-out forwards;
+    animation-delay: 0.3s;
+}
+
+/* Стили для полей формы */
+input, textarea {
+    width: 80%;
+    padding: 15px; /* Увеличим внутренний отступ */
+    margin: 12px 0; /* Сделаем отступы немного больше */
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+/* Фокус на полях формы */
+input:focus, textarea:focus {
+    border-color: #FF4B2B; /* Цвет для фокуса */
+    outline: none;
+}
+
+/* Кнопка отправки */
+button[type="submit"] {
+    display: inline-block;
+    padding: 14px 28px; /* Увеличим кнопку для удобства */
+    background: #FF4B2B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 18px;
+    transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background: #FF6A47;
+}
+
+/* Для сообщений об ошибках */
+.error-list {
+    color: red;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.error-list .error {
+    font-size: 0.9em;
+}
+
+/* Для успешных сообщений */
+.messages {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e0f7fa;
+    color: #00796b;
+}
+
+.messages .message.success {
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+.messages .message.error {
+    background-color: #ffcdd2;
+    color: #d32f2f;
+}
+
+
+
+/* Анимация появления формы */
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service-item i {
+    font-size: 3em; /* Устанавливает размер иконки */
+    margin-bottom: 10px; /* Отступ снизу для отделения от заголовка */
+    color: #ffffff; /* Опционально: задаёт яркий акцентный цвет */
+}
