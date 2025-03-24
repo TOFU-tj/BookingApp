@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from services.models import ServiceModel, WorkSchedule, Appointment  
+from services.models import ServiceModel, WorkSchedule  
 
 admin.site.register(ServiceModel)
 admin.site.register(WorkSchedule)
-admin.site.register(Appointment)
+

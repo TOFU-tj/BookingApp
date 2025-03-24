@@ -59,7 +59,8 @@ input[type="text"]::selection {
     margin: 40px auto;
 }
 
-.button {
+/* Стили для кнопки "Копировать" */
+.copy-button {
     display: inline-block;
     padding: 12px 20px;
     margin-top: 20px;
@@ -71,10 +72,15 @@ input[type="text"]::selection {
     cursor: pointer;
     text-decoration: none;
     box-sizing: border-box;
+    transition: background-color 0.3s ease;
 }
 
-.button:hover {
+.copy-button:hover {
     background-color: #45a049;
+}
+
+.copy-button.copied {
+    background-color: #28a745; /* Изменяем цвет при успешном копировании */
 }
 
 @media (max-width: 600px) {
@@ -85,7 +91,7 @@ input[type="text"]::selection {
         font-size: 16px;
         padding: 10px;
     }
-    .button {
+    .copy-button {
         font-size: 16px;
         padding: 10px 18px;
     }

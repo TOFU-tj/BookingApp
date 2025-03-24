@@ -42,18 +42,3 @@ class WorkSchedule(models.Model):
         return f"{self.user} - {self.schedule_date}: {self.start_time} - {self.end_time} ({status})"
 
 
-
-class Appointment(models.Model):
-    master = models.ForeignKey(User, on_delete=models.CASCADE)  
-    date = models.DateField()  
-    time = models.TimeField()
-    client_name = models.CharField(max_length=100)
-    client_phone = models.CharField(max_length=20)
-    is_confirmed = models.BooleanField(default=False)  
-
-    class Meta:
-        unique_together = ('master', 'date', 'time') 
-
-    def __str__(self):
-        status = "✅ Подтверждено" if self.is_confirmed else "⏳ Ожидает подтверждения"
-        return f"{self.client_name} записан к {self.master} на {self.date} {self.time} ({status})"

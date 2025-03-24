@@ -33,15 +33,16 @@
                             <i class='bx bxs-user-circle'></i>
                         </a>
                         <ul class="dropdown-menu">
-                            {% if user.is_superuser or user.is_staff %}
+                            {% if user.is_superuser %}
                                 <li><a href="{% url 'admin:index' %}">ADMIN</a></li>
-                                {% comment %} <li><a href="{% url 'orders:revenue' %}">Расчеты</a></li> {% endcomment %}
-                            {% endif %}
+                            {%endif%}
+
                             <li><a href="{% url 'user:logout' %}">LOG OUT</a></li>
                         </ul>
                     </li>
                 {% else %}
                     <li><a href="{% url 'user:login' %}"><i class='bx bxs-user-circle'></i></a></li>
+                    <li><a href="{% url 'user:registration' %}">Registration</a></li>
                 {% endif %}
             </ul>
             <div class="burger-menu">

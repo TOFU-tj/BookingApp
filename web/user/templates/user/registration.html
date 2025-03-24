@@ -1,0 +1,62 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'user/css/login.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="login-container">
+    <h2>Регистрация</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% comment %} <!-- Имя -->
+        <div class="input-group">
+            <input type="text" name="first_name" class="input-box" placeholder="Имя" value="{{ form.first_name.value|default:'' }}" required>
+        </div>
+
+        <!-- Фамилия -->
+        <div class="input-group">
+            <input type="text" name="last_name" class="input-box" placeholder="Фамилия" value="{{ form.last_name.value|default:'' }}" required>
+        </div>
+
+        <!-- Email -->
+        <div class="input-group">
+            <input type="email" name="email" class="input-box" placeholder="Email" value="{{ form.email.value|default:'' }}" required>
+        </div>
+
+        <!-- Название компании -->
+        <!-- Название компании -->
+        <div class="input-group">
+            <input type="text" name="company_name" class="input-box" placeholder="Название компании" value="{{ form.company_name.value|default:'' }}" required>
+            {% if form.company_name.errors %}
+                <div class="error-messages">
+                    {{ form.company_name.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Пароль -->
+        <div class="input-group">
+            <input type="password" name="password1" class="input-box" placeholder="Введите пароль" required>
+        </div>
+
+        <!-- Повторите пароль -->
+        <div class="input-group">
+            <input type="password" name="password2" class="input-box" placeholder="Повторите пароль" required>
+        {% comment %} </div> {% endcomment %}
+
+        <!-- Кнопка регистрации -->
+        <button type="submit" class="login-button">Зарегистрироваться</button>
+         </form> 
+
+    <!-- Ссылка на страницу входа -->
+    <div class="register-link">
+        Уже есть аккаунт? <a href="{% url 'user:login' %}">Войти</a>
+    </div> 
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework',
     "phonenumber_field",
+    "debug_toolbar",
     'rest_framework.authtoken',
+    
+    'subscription', 
     
     'main_page', 
     'services', 
@@ -62,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'web.urls'
@@ -83,6 +87,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'web.wsgi.application'
+
+
+INTERNAL_IPS = [
+    
+    "127.0.0.1",
+    "localhost"
+    
+]
 
 
 # Database

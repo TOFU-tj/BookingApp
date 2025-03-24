@@ -7,13 +7,21 @@
 
 {% block body %}
 {% include "main_page/base.html" %}
-    <div class="container">
-        <h1>Ссылка для ваших клиентов:</h1>
-        <p>Поделитесь этой ссылкой с вашими клиентами:</p>
-        <input type="text" value="{{ link }}" readonly>
+<div class="container">
+    <h1>Ссылка для ваших клиентов:</h1>
+    <p>Поделитесь этой ссылкой с вашими клиентами:</p>
+    
+    <div class="link-container">
+        <input type="text" id="link-input" value="{{ link }}" readonly>
+        <button id="copy-button" class="copy-button">Копировать</button>
     </div>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+</div>
 {% endblock %}
 
 {% block extra_js %}
+    <script src="{% static 'main_page/js/link.js' %}"></script>
 {% endblock %}
-

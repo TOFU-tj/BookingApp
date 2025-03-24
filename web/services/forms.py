@@ -1,6 +1,6 @@
 from services.models import ServiceModel
 from django import forms
-from services.models import ServiceModel, WorkSchedule, Appointment  
+from services.models import ServiceModel, WorkSchedule  
 
 
 class ServiceModelForm(forms.ModelForm):
@@ -35,14 +35,5 @@ class WorkScheduleForm(forms.ModelForm):
         }
 
 
-class AppointmentForm(forms.ModelForm):
-    class Meta:
-        model = Appointment
-        fields = ['date', 'time', 'client_name', 'client_phone']
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}),
-            'client_phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Телефон'}),
-        }
+
 
