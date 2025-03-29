@@ -33,6 +33,7 @@ class UserBlank(forms.ModelForm):
         }
 
 
+
 class ClientScheduleForm(forms.ModelForm):
     select_day = forms.ModelChoiceField(
         queryset=DaySchedule.objects.none(),
@@ -52,13 +53,20 @@ class ClientScheduleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
-
-        if user:
+        if user and user.is_authenticated:
             self.fields["select_day"].queryset = DaySchedule.objects.filter(
                 calendar__owner=user,
                 is_working_day=True
             )
             self.fields["select_time"].queryset = TimeSlot.objects.filter(
                 schedule__calendar__owner=user,
+                is_available=True
+            )
+        else:
+            # Если пользователь анонимный, показываем все доступные даты и временные слоты
+            self.fields["select_day"].queryset = DaySchedule.objects.filter(
+                is_working_day=True
+            )
+            self.fields["select_time"].queryset = TimeSlot.objects.filter(
                 is_available=True
             )

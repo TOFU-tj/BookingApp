@@ -170,15 +170,24 @@ class ScheduleView(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            # Assign the executor before saving the form
-            form.instance.executor = self.request.user
+            # Устанавливаем session_key
             form.instance.session_key = request.session.session_key
+
+            # Получаем выбранные значения из формы
+            selected_date = form.cleaned_data['select_day']
+            selected_time_slot = form.cleaned_data['select_time']
+
+            # Устанавливаем значения в экземпляр модели
+            form.instance.date = selected_date
+            form.instance.time_slot = selected_time_slot
+
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
         
     def form_valid(self, form):
-        form.instance.executor = self.request.user
+        if self.request.user.is_authenticated:
+            form.instance.executor = self.request.user  # Устанавливаем только для аутентифицированных пользователей
         form.instance.session_key = self.request.session.session_key
         response = super().form_valid(form)
         return redirect("client:user_form", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
@@ -227,12 +236,22 @@ class UserFormView(CreateView):
         
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
         basket_history = self._serialize_basket(basket)
-        
+
+        # Получаем последнюю запись из ClientSchedule
+        client_schedule = ClientSchedule.objects.filter(
+            session_key=session_key
+        ).last()
+
+        # Создаем запись в SuccessModel
         success_record = SuccessModel.objects.create(
             name=user_form,
             executor=executor,
             session_key=session_key,
-            basket_history=basket_history
+            basket_history=basket_history,
+            time_history={
+                "selected_date": str(client_schedule.date.date) if client_schedule and client_schedule.date else None,
+                "selected_time_slot": f"{client_schedule.time_slot.start_time} - {client_schedule.time_slot.end_time}" if client_schedule and client_schedule.time_slot else None,
+            }
         )
 
         basket.delete()

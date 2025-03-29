@@ -13,17 +13,21 @@
         {% if records %}
             {% for record in records %}
                 <div class="record-card">
-                    <div class="record-info">
-                        <h3>👤 Данные клиента</h3>
-                        <p><strong>Имя:</strong> {{ record.name.name }}</p>
-                        <p><strong>Фамилия:</strong> {{ record.name.surname }}</p>
-                        <p><strong>Телефон:</strong> {{ record.name.phone }}</p>
-                        <p><strong>Email:</strong> {{ record.name.email }}</p>
+                    <!-- Информация о клиенте -->
+                    <div class="record-section">
+                        <h3 class="section-title">👤 Данные клиента</h3>
+                        <ul class="info-list">
+                            <li><strong>Имя:</strong> {{ record.name.name }}</li>
+                            <li><strong>Фамилия:</strong> {{ record.name.surname }}</li>
+                            <li><strong>Телефон:</strong> {{ record.name.phone }}</li>
+                            <li><strong>Email:</strong> {{ record.name.email }}</li>
+                        </ul>
                     </div>
 
-                    <div class="record-services">
-                        <h3>🛍 Выбранные услуги</h3>
-                        <ul>
+                    <!-- Выбранные услуги -->
+                    <div class="record-section">
+                        <h3 class="section-title">🛍 Выбранные услуги</h3>
+                        <ul class="services-list">
                             {% for item in record.basket_history %}
                                 <li>{{ item.service }} — {{ item.quantity }} шт. ({{ item.price }})</li>
                             {% empty %}
@@ -32,16 +36,20 @@
                         </ul>
                     </div>
 
-                    <div class="record-time">
-                        <h3>🕒 Дата и время записи</h3>
-                        <p>{{ record.created_at }}</p>
+                    <!-- Дата и время записи -->
+                    <div class="record-section">
+                        <h3 class="section-title">🕒 Дата и время записи</h3>
+                        <p><strong>Дата:</strong> {{ record.time_history.selected_date }}</p>
+                        <p><strong>Время:</strong> {{ record.time_history.selected_time_slot }}</p>
                     </div>
 
                     <!-- Кнопка удаления -->
-                    <form action="{% url 'main:delete_record' record.pk %}" method="post" class="delete-form">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-btn">❌ Удалить запись</button>
-                    </form>
+                    <div class="record-actions">
+                        <form action="{% url 'main:delete_record' record.pk %}" method="post" class="delete-form">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn">❌ Удалить запись</button>
+                        </form>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}
@@ -50,5 +58,5 @@
     </div>
 {% endblock %}
 
-{%block extra_js%}
-{%endblock%}
+{% block extra_js %}
+{% endblock %}

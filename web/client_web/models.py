@@ -59,7 +59,8 @@ class SuccessModel(models.Model):
     executor = models.ForeignKey(User, on_delete=models.CASCADE)  # Владелец компании (исполнитель)
     session_key = models.CharField(max_length=40, blank=True, null=True)  # Добавляем session_key
     created_at = models.DateTimeField(auto_now_add=True)  # Дата создания записи
-
+    scheduled_date = models.DateField(null=True, blank=True)
+    scheduled_time_slot = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name = "SuccessModel"
@@ -69,22 +70,55 @@ class SuccessModel(models.Model):
         return f"Запись #{self.id}: {self.name.name} записан к {self.executor.username}"
 
     def get_full_details(self):
-        """Получение полных данных о записи."""
+    
         return {
-            "client": self.name.name,
-            "services": self.basket_history.get("services", []),
-            "selected_time": self.time_history.get("selected_time", {}),
-            "executor": self.executor.username,
+            "client": {
+                "name": self.name.name,
+                "surname": self.name.surname,
+                "email": self.name.email,
+                "phone": self.name.phone,
+            },
+            "services": [
+                {
+                    "service": item.get("service"),
+                    "quantity": item.get("quantity"),
+                    "price": item.get("price"),
+                }
+                for item in self.basket_history.get("services", [])
+            ],
+            "selected_time": {
+                "date": self.time_history.get("selected_date"),
+                "time_slot": self.time_history.get("selected_time_slot"),
+            },
+            "executor": {
+                "username": self.executor.username,
+                "company": self.executor.company.name if hasattr(self.executor, "company") else None,
+            },
             "created_at": str(self.created_at),
         }
     
     
-    
 class ClientSchedule(models.Model):
-    executor = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.ForeignKey(DaySchedule, on_delete=models.CASCADE, null=True, blank=True)  # Выбор даты
-    time_slot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True, blank=True)  # Временной слот
-    session_key = models.CharField(max_length=40, blank=True, null=True)  # Добавляем session_key
+    
+    executor = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True  # Разрешаем пустые значения
+    )
+    date = models.ForeignKey(
+        DaySchedule, 
+        on_delete=models.CASCADE, 
+        null=True, 
+        blank=True
+    )
+    time_slot = models.ForeignKey(
+        TimeSlot, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True
+    )
+    session_key = models.CharField(max_length=40, blank=True, null=True)
 
     class Meta:
         verbose_name = "ClientSchedule"
@@ -95,14 +129,8 @@ class ClientSchedule(models.Model):
 
     def serialize(self):
         return {
-            "executor": self.executor.username,
+            "executor": self.executor.username if self.executor else None,
             "date": str(self.date.date) if self.date else None,
             "time_slot": f"{self.time_slot.start_time} - {self.time_slot.end_time}" if self.time_slot else None,
             "session_key": self.session_key,
         }
-        
-    def get_absolute_url(self):
-        return reverse('client:user_form', kwargs={
-            'slug_company': self.date.calendar.owner.company.slug,
-            'slug_username': self.date.calendar.owner.username
-        })
