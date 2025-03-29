@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from services.models import ServiceModel, WorkSchedule
+from services.models import ServiceModel
 from user.serializers import UserModelSerializer
 
 from user.models import User
@@ -15,8 +15,3 @@ class ServiceModelSerializer(serializers.ModelSerializer):
         model = ServiceModel
         fields = '__all__'
 
-
-class WorkScheduleSerializer(serializers.ModelSerializer): 
-    class Meta : 
-        model = WorkSchedule
-        fields = "__all__"

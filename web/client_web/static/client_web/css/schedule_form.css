@@ -1,0 +1,151 @@
+/* 🌙 Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0d0d0d;
+    color: #fff;
+    text-align: center;
+}
+
+/* 📌 Контейнер страницы */
+.form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🎨 Заголовок */
+.form-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(90deg, #ff4b2b, #e52e71);
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
+    margin-bottom: 20px;
+}
+
+/* 🏷️ Описание формы */
+.form-description {
+    font-size: 1.2em;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+/* 📦 Группа полей */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* 🏷️ Метки */
+.form-label {
+    display: block;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #ff4b2b;
+}
+
+/* 📜 Выпадающие списки */
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    background-color: #2a2a2a;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+}
+
+/* 🔥 Кнопка отправки */
+.btn-primary {
+    padding: 12px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(145deg, #ff4b2b, #ff416c);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background: #ff4b2b;
+    transform: scale(1.07);
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+/* 🌀 Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .form-title {
+        font-size: 2em;
+    }
+
+    .btn-primary {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-title {
+        font-size: 1.8em;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .btn-primary {
+        font-size: 0.9em;
+        padding: 10px 15px;
+    }
+}

@@ -1,23 +1,26 @@
 {% extends "main_page/base.html" %}
 {% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'client_web/css/success.css' %}">
-{% endblock %}
-
 {% block body %}
     <div class="success-container">
-        <h1 class="success-title">✅ Запись успешно оформлена!</h1>
+        <h1 class="success-title">Запись успешно завершена!</h1>
+        <p class="success-description">Спасибо за вашу заявку. Мы свяжемся с вами в ближайшее время.</p>
 
-        <!-- Поздравительное сообщение -->
-        <div class="congratulations-message">
-            <p>Спасибо за вашу запись! Мы свяжемся с вами в ближайшее время для подтверждения.</p>
-            <p>Желаем вам приятного дня! 😊</p>
-        </div>
+        {% if user %}
+            <p>Имя пользователя: {{ user }}</p>
+        {% endif %}
 
-        <!-- Кнопка для возврата на главную -->
-        <a href="/">
-            <button class="continue-btn">Вернуться на главную</button>
-        </a>
+        {% if basket_items %}
+            <p>Корзина:</p>
+            <ul>
+                {% for item in basket_items %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if time_slot %}
+            <p>Выбранный временной слот: {{ time_slot }}</p>
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'schedule/css/schedule.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="schedule-container">
+        <h1>Редактирование расписания для {{ schedule.date }}</h1>
+
+        <!-- Расписание -->
+        <div class="time-slots">
+            {% for slot in time_slots %}
+                <button class="time-slot" onclick="window.location.href='/edit-time-slot/{{ slot.id }}';">
+                    {{ slot.start_time|time:"H:i" }}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

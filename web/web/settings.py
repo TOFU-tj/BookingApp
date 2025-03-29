@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'main_page', 
     'services', 
     'user',
+    'schedule',
     
     'client_web',  
 
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'schedule.middleware.DeletePastDaysMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'

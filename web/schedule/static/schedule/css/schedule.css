@@ -1,0 +1,81 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #282c34; /* Тёмный фон */
+    color: white;
+}
+
+/* Кнопка "+" для добавления дня */
+.add-day-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    z-index: 10; /* Чтобы кнопка была поверх других элементов */
+}
+
+/* Контейнер для ячейки */
+.fc-daygrid-day {
+    position: relative; /* Обязательно для позиционирования кнопки внутри ячейки */
+}
+
+/* Центрирование текста даты */
+.fc-daygrid-day-number {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.5em; /* Устанавливаем высоту строки */
+}
+
+.fc-daygrid-event-harness {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fc-daygrid-event-dot {
+    display: none; /* Убираем точки событий */
+}
+
+.fc-daygrid-event {
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.fc-daygrid-event.fc-event-is-start,
+.fc-daygrid-event.fc-event-is-end {
+    background-color: #3a86ff; /* Цвет для событий */
+    color: white;
+}
+
+.fc-daygrid-event.fc-event-is-start:hover,
+.fc-daygrid-event.fc-event-is-end:hover {
+    background-color: #2176e3; /* Цвет при наведении */
+}
+
+.fc-daygrid-event.fc-event-is-start:focus,
+.fc-daygrid-event.fc-event-is-end:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Эффект фокуса */
+}
+
+.fc-daygrid-event.fc-event-is-start.selected,
+.fc-daygrid-event.fc-event-is-end.selected {
+    background-color: #ff4d4d; /* Цвет для выбранного дня */
+    color: white;
+}
+
+.fc-daygrid-event.fc-event-is-start.selected:hover,
+.fc-daygrid-event.fc-event-is-end.selected:hover {
+    background-color: #e74c3c; /* Цвет при наведении на выбранный день */
+}
+
+.fc-daygrid-event.fc-event-is-start.selected:focus,
+.fc-daygrid-event.fc-event-is-end.selected:focus {
+    box-shadow: 0 0 0 3px rgba(255, 69, 69, 0.5); /* Эффект фокуса для выбранного дня */
+}

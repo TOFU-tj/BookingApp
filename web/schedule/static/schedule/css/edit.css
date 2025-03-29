@@ -1,0 +1,124 @@
+/* Основные стили */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9; /* Светлый фон */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #ffffff; /* Белый фон формы */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+    text-align: center;
+}
+
+h1 {
+    font-size: 28px;
+    color: #4CAF50; /* Зеленый цвет заголовка */
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50; /* Зеленая кнопка */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049; /* Темно-зеленый при наведении */
+    transform: scale(1.05); /* Легкий эффект увеличения */
+}
+
+.delete-button {
+    background-color: #f44336; /* Красная кнопка */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f; /* Темно-красный при наведении */
+    transform: scale(1.05); /* Легкий эффект увеличения */
+}
+
+.edit-button {
+    background-color: #2196f3; /* Синяя кнопка */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #1976d2; /* Темно-синий при наведении */
+    transform: scale(1.05); /* Легкий эффект увеличения */
+}
+
+.time-slots {
+    margin-top: 20px;
+}
+
+.time-slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #f9f9f9; /* Светло-серый фон слотов */
+    border: 1px solid #ddd; /* Легкая граница */
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.time-slot:hover {
+    background-color: #e9ecef; /* Серый при наведении */
+    transform: translateY(-2px); /* Легкий эффект подъема */
+}
+
+.time-slot span {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.time-slot span.available {
+    color: #28a745; /* Зеленый для "Доступен" */
+}
+
+.time-slot span.unavailable {
+    color: #dc3545; /* Красный для "Недоступен" */
+}
+
+a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #45a049;
+}

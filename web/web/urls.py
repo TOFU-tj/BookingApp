@@ -18,6 +18,8 @@ urlpatterns = [
     
     path('services/', include('services.urls', namespace='services')),
     
+    path('schedule/', include('schedule.urls', namespace='schedule')),
+    
     path ('client_web_page/', include('client_web.urls', namespace='client_web')),
     
     path('subscription_page', include('subscription.urls', namespace='subscription')), 
@@ -28,5 +30,6 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns.append(path('__debug__/', include('debug_toolbar.urls'))),
+    import debug_toolbar
+    urlpatterns += path('__debug__/', include(debug_toolbar.urls)),
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

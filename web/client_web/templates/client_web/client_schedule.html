@@ -1,0 +1,37 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'client_web/css/schedule_form.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="form-container" 
+        data-slug-company="{{ slug_company }}" 
+        data-slug-username="{{ slug_username }}">
+        <h1 class="form-title">Запись на услугу</h1>
+        <p class="form-description">Выберите дату и время для записи.</p>
+
+        <form method="post" id="schedule-form">
+            {% csrf_token %}
+
+            <!-- Поле выбора даты -->
+            <div class="form-group">
+                <label for="{{ form.select_day.id_for_label }}">Дата</label>
+                {{ form.select_day }}
+            </div>
+
+            <!-- Поле выбора временного слота -->
+            <div class="form-group">
+                <label for="{{ form.select_time.id_for_label }}">Временной слот</label>
+                {{ form.select_time }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Записаться</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'client_web/js/schedule_form.js' %}"></script>
+{% endblock %}

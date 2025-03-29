@@ -1,33 +1,57 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const dropdownBtn = document.getElementById("schedule-btn");
-    const dropdownContent = document.getElementById("schedule-list");
-    const scheduleInput = document.getElementById("schedule-input");
-    
-    // Получаем все элементы списка для выбора
-    const dropdownItems = document.querySelectorAll(".dropdown-item");
+document.addEventListener("DOMContentLoaded", function () {
+    const dateSelect = document.getElementById("id_date");
+    const timeSlotSelect = document.getElementById("id_time_slot");
 
-    // Обработчик для выбора времени из списка
-    dropdownItems.forEach(item => {
-        item.addEventListener('click', function () {
-            const scheduleId = item.getAttribute('data-value');
-            scheduleInput.value = scheduleId; // Обновляем скрытое поле
-            dropdownBtn.textContent = item.textContent; // Обновляем текст на кнопке
-            dropdownContent.style.display = "none"; // Закрываем список после выбора
-        });
-    });
+    // Получаем slug_company и slug_username из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slugCompany = urlParams.get('slug_company');
+    const slugUsername = urlParams.get('slug_username');
 
-    // Открытие списка при клике на кнопку
-    dropdownBtn.addEventListener("click", function(event) {
-        // Предотвращаем закрытие списка, если клик был внутри
-        event.stopPropagation();
-        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-    });
+    if (!slugCompany || !slugUsername) {
+        console.error("Slug company or slug username is missing in the URL!");
+        return;
+    }
 
-    // Закрытие списка при клике вне его
-    document.addEventListener("click", function(event) {
-        if (!dropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
-            dropdownContent.style.display = "none";
+    dateSelect.addEventListener("change", function () {
+        const selectedDate = dateSelect.value;
+
+        if (selectedDate) {
+            // Очищаем предыдущие слоты
+            timeSlotSelect.innerHTML = '<option value="">Загрузка...</option>';
+            timeSlotSelect.disabled = true;
+
+            // Загружаем доступные временные слоты через AJAX
+            fetch(`/${slugCompany}/${slugUsername}/get-available-slots/?date=${selectedDate}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(slots => {
+                    timeSlotSelect.innerHTML = ""; // Очищаем предыдущие слоты
+
+                    if (slots.length > 0) {
+                        slots.forEach(slot => {
+                            const option = document.createElement("option");
+                            option.value = slot.id;
+                            option.textContent = `${slot.start_time} - ${slot.end_time}`;
+                            timeSlotSelect.appendChild(option);
+                        });
+
+                        timeSlotSelect.disabled = false; // Активируем выпадающий список
+                    } else {
+                        timeSlotSelect.innerHTML = '<option value="" disabled>Нет доступных слотов</option>';
+                        timeSlotSelect.disabled = true; // Деактивируем выпадающий список
+                    }
+                })
+                .catch(error => {
+                    console.error("Ошибка при загрузке слотов:", error);
+                    timeSlotSelect.innerHTML = '<option value="" disabled>Ошибка загрузки</option>';
+                    timeSlotSelect.disabled = true;
+                });
+        } else {
+            timeSlotSelect.innerHTML = '<option value="" disabled>Выберите дату</option>';
+            timeSlotSelect.disabled = true; // Деактивируем выпадающий список
         }
     });
 });
-

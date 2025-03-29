@@ -1,15 +1,15 @@
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView
-from services.models import ServiceModel, WorkSchedule
-from client_web.models import Basket, UserForm, SuccessModel, User
-from client_web.forms import UserBlank
+from services.models import ServiceModel
+from client_web.models import Basket, UserForm, SuccessModel, User, ClientSchedule
+from client_web.forms import UserBlank, ClientScheduleForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
-
-
+from schedule.models import  DaySchedule, TimeSlot
+from django.http import JsonResponse
+from django.contrib import messages
 
 
 class ClientServicesListView(ListView):
@@ -101,10 +101,100 @@ class BasketDeleteView(View):
             Basket.objects.filter(session_key=session_key, id=item_id).delete()
         return redirect(request.META.get("HTTP_REFERER", "/"))
     
+
+
+
+
+class SuccessView(ListView):
+    model = SuccessModel
+    template_name = 'client_web/success.html'
+    context_object_name = 'success_entries'
+
+    def get_queryset(self):
+        session_key = self.request.session.session_key
+        if not session_key:
+            return SuccessModel.objects.none()
+        return SuccessModel.objects.filter(session_key=session_key).select_related('name', 'executor')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        last_entry = self.get_queryset().last()
+
+        if last_entry:
+            context["user"] = last_entry.name
+            context["basket_items"] = last_entry.basket_history
+            context["time_slot"] = last_entry.time_slot  # Добавляем временной слот в контекст
+        else:
+            print("No entries found in SuccessModel.")  # Отладочная информация
+
+        return context
     
     
+
+
+
+
+
+
+class ScheduleView(CreateView):
+    template_name = 'client_web/client_schedule.html'
+    model = ClientSchedule
+    form_class = ClientScheduleForm
+    success_url = reverse_lazy('client:user_form')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['slug_company'] = self.kwargs.get('slug_company')
+        context['slug_username'] = self.kwargs.get('slug_username')
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            date_id = request.GET.get("date")
+            print(f"Received AJAX request for date ID: {date_id}")  # Отладочная информация
+            if date_id:
+                available_slots = TimeSlot.objects.filter(
+                    schedule_id=date_id,
+                    is_available=True
+                ).values("id", "start_time", "end_time")
+                print(f"Available slots: {list(available_slots)}")  # Отладочная информация
+                return JsonResponse(list(available_slots), safe=False)
+            return JsonResponse([], safe=False)
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            # Assign the executor before saving the form
+            form.instance.executor = self.request.user
+            form.instance.session_key = request.session.session_key
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+        
+    def form_valid(self, form):
+        form.instance.executor = self.request.user
+        form.instance.session_key = self.request.session.session_key
+        response = super().form_valid(form)
+        return redirect("client:user_form", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('client:user_form', kwargs={
+            'slug_company': self.kwargs['slug_company'],
+            'slug_username': self.kwargs['slug_username']
+        })
     
-from django.urls import reverse_lazy
+    
 
 
 
@@ -116,8 +206,10 @@ class UserFormView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
-        context["schedules"] = WorkSchedule.objects.filter(is_available=True, user=executor)
-
+        context["schedules"] = DaySchedule.objects.filter(
+            is_working_day=True,
+            calendar__owner=executor
+        )
         return context
 
     def form_valid(self, form):
@@ -129,18 +221,19 @@ class UserFormView(CreateView):
         basket = Basket.objects.filter(session_key=session_key).first()
         if not basket or basket.quantity == 0:  
             return redirect("client:client_basket", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
+        
         form.instance.session_key = session_key  
         user_form = form.save()
+        
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
         basket_history = self._serialize_basket(basket)
-          
+        
         success_record = SuccessModel.objects.create(
             name=user_form,
             executor=executor,
             session_key=session_key,
             basket_history=basket_history
         )
-
 
         basket.delete()
 
@@ -173,28 +266,3 @@ class UserFormView(CreateView):
                 "slug_username": self.kwargs["slug_username"],
             }
         )
-        
-class SuccessView(ListView): 
-    model = SuccessModel
-    template_name = 'client_web/success.html'
-    context_object_name = 'success_entries'
-
-    def get_queryset(self):
-        session_key = self.request.session.session_key
-        if not session_key:
-            return SuccessModel.objects.none()
-        return SuccessModel.objects.filter(session_key=session_key).select_related('name', 'executor')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        last_entry = self.get_queryset().last()
-        
-        if last_entry:
-            context["user"] = last_entry.name 
-            context["basket_items"] = last_entry.basket_history  
-        else:
-            print("No entries found in SuccessModel.")  # Отладочная информация
-
-        return context
-    
- 

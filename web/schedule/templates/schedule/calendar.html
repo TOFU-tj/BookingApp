@@ -1,0 +1,95 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="{% static 'schedule/css/schedule.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+    <!-- Заголовок страницы -->
+    <h1>Мое расписание</h1>
+
+    <!-- Контейнер для календаря -->
+    <div id="calendar"></div>
+
+    <!-- Подключение скриптов -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("Initializing FullCalendar...");
+
+            // Получаем элемент календаря
+            var calendarEl = document.getElementById('calendar');
+            if (!calendarEl) {
+                console.error("Element with ID 'calendar' not found");
+                return;
+            }
+
+            // Создаем экземпляр FullCalendar
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: ''
+                },
+                themeSystem: 'standard',
+                locale: 'ru',
+                events: [
+                    {% for schedule in schedules %}
+                        {
+                            id: '{{ schedule.id }}',
+                            title: '{{ schedule.status }}',
+                            start: '{{ schedule.date|date:"Y-m-d" }}',
+                            color: '{{ schedule.is_working_day|yesno:"#4CAF50,#f44336" }}'
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function (info) {
+                    console.log("Event ID:", info.event.id);
+                    window.location.href = `/schedule/edit/${info.event.id}/`;
+                },
+                dayCellDidMount: function (arg) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    const isPastDate = arg.date < today;
+                    const hasEvents = arg.el.querySelector('.fc-daygrid-event') !== null;
+
+                    if (isPastDate || hasEvents) {
+                        return;
+                    }
+
+                    // Создаем кнопку "+"
+                    const button = document.createElement('button');
+                    button.classList.add('add-day-button');
+                    button.innerHTML = '+';
+                    button.onclick = function () {
+                        const clickedDate = arg.date.toISOString().split('T')[0];
+                        window.location.href = `{% url 'schedule:create_day' %}?date=${clickedDate}`;
+                    };
+
+                    // Добавляем кнопку в нижнюю часть ячейки
+                    button.style.position = 'absolute';
+                    button.style.bottom = '5px';
+                    button.style.right = '5px';
+
+                    // Добавляем кнопку в ячейку
+                    arg.el.appendChild(button);
+                }
+            });
+
+            // Рендерим календарь
+            calendar.render();
+
+            // Автоматическое обновление событий после добавления
+            window.addEventListener('focus', function () {
+                calendar.refetchEvents();
+            });
+        });
+    </script>
+{% endblock %}

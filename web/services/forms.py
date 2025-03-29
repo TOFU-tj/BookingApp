@@ -1,6 +1,6 @@
 from services.models import ServiceModel
 from django import forms
-from services.models import ServiceModel, WorkSchedule  
+from services.models import ServiceModel  
 
 
 class ServiceModelForm(forms.ModelForm):
@@ -21,19 +21,3 @@ class ServiceModelForm(forms.ModelForm):
         model = ServiceModel
         fields = ['name', 'price', 'description']
     
-
-
-class WorkScheduleForm(forms.ModelForm):
-    class Meta:
-        model = WorkSchedule
-        fields = ['schedule_date', 'start_time', 'end_time', 'is_available']
-        widgets = {
-            'schedule_date': forms.SelectDateWidget(attrs={'class': 'form-control'}),  
-            'start_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),  
-            'end_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),  
-            'is_available': forms.CheckboxInput(attrs={'class': 'form-check-input'}),  
-        }
-
-
-
-

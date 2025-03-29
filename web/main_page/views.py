@@ -15,7 +15,10 @@ class OrderViews( ListView):
     context_object_name = "records"
 
     def get_queryset(self):
-        return SuccessModel.objects.filter(executor=self.request.user).select_related('name', 'executor')
+        if self.request.user.is_authenticated:
+            return SuccessModel.objects.filter(executor=self.request.user).select_related('name', 'executor')
+        return SuccessModel.objects.none()  # Возвращаем пустой QuerySet для неаутентифицированных пользователей
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -35,6 +38,7 @@ class RecordDeleteView(DeleteView):
 
     def get_queryset(self):
         return SuccessModel.objects.filter(executor=self.request.user)
+
 
 
 def generate_client_service_link(request):

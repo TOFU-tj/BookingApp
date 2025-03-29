@@ -1,0 +1,58 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'schedule/css/edit.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="form-container">
+        <h1>Редактирование расписания для {{ schedule.date }}</h1>
+        
+        <!-- Форма для редактирования основного расписания -->
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+        </form>
+
+        <!-- Временные слоты -->
+        <h2>Временные слоты</h2>
+        <div class="time-slots">
+            {% for slot in time_slots %}
+                <div class="time-slot">
+                    <span>{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</span>
+                    {% if slot.is_available %}
+                        <span style="color: green;">Доступен</span>
+                    {% else %}
+                        <span style="color: red;">Недоступен</span>
+                    {% endif %}
+                    <!-- Кнопка редактирования -->
+                    <a href="{% url 'schedule:edit_time_slot' slot.id %}" class="edit-button">Редактировать</a>
+                    <!-- Кнопка удаления -->
+                    <form action="{% url 'schedule:delete_time_slot' slot.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Удалить</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>Нет доступных временных слотов.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Кнопка "Удалить" -->
+        <form method="post" action="{% url 'schedule:delete' pk=schedule.id %}">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">Удалить</button>
+        </form>
+
+        <a href="{% url 'schedule:calendar' %}">Назад к календарю</a>
+    </div>
+
+
+{% endblock %}
+
+{%block extra_js%}
+    <script></script>
+{%endblock%}

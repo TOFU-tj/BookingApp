@@ -1,0 +1,26 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'schedule/css/create_day.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Создание нового дня</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="id_date">Дата:</label>
+                <input type="date" id="id_date" name="date" value="{{ form.date.value|default_if_none:'' }}" required>
+            </div>
+            <div>
+                <label for="id_is_working_day">Это рабочий день?</label>
+                <input type="checkbox" id="id_is_working_day" name="is_working_day" {% if form.is_working_day.value %}checked{% endif %}>
+            </div>
+            <button type="submit">Создать</button>
+        </form>
+        <a href="{% url 'schedule:calendar' %}">Назад к календарю</a>
+    </div>
+{% endblock %}

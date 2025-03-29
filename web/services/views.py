@@ -1,38 +1,13 @@
 from django.urls import reverse_lazy
-from services.forms import ServiceModelForm, WorkScheduleForm 
+from services.forms import ServiceModelForm 
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.views.generic.list import ListView
-from services.models import ServiceModel, WorkSchedule
+from services.models import ServiceModel
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 
-class WorkScheduleCreateView(LoginRequiredMixin, CreateView):  
-    model = WorkSchedule  
-    form_class = WorkScheduleForm  
-    template_name = "services/work_schedule.html"  
-    success_url = reverse_lazy("service:schedule_list")  
-
-    def form_valid(self, form):  
-        form.instance.user = self.request.user  # Привязываем к текущему пользователю  
-        return super().form_valid(form)  
-
-
-class WorkScheduleListView(LoginRequiredMixin, ListView):  
-    model = WorkSchedule  
-    template_name = "services/schedule_list.html"  
-    context_object_name = "schedules"  
-
-    def get_queryset(self):  
-        return WorkSchedule.objects.filter(user=self.request.user)  # Фильтр по текущему пользователю  
-
-
-class WorkScheduleDelete(LoginRequiredMixin, View):  
-    def post(self, request, *args, **kwargs):  
-        schedule = get_object_or_404(WorkSchedule, pk=kwargs["pk"], user=request.user)  # Только свои расписания  
-        schedule.delete()  
-        return redirect('service:schedule_list')  
     
 
 class ServiceView(LoginRequiredMixin, ListView):  
