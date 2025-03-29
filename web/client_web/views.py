@@ -190,12 +190,8 @@ class SuccessView(ListView):
         last_entry = self.get_queryset().last()
         
         if last_entry:
-            print("Last Entry:", last_entry)  # Отладочная информация
-            print("User Data:", last_entry.name)  # Отладочная информация
-            print("Basket History:", last_entry.basket_history)  # Отладочная информация
-
-            context["user"] = last_entry.name  # Передаем данные пользователя
-            context["basket_items"] = last_entry.basket_history  # Передаем историю корзины
+            context["user"] = last_entry.name 
+            context["basket_items"] = last_entry.basket_history  
         else:
             print("No entries found in SuccessModel.")  # Отладочная информация
 

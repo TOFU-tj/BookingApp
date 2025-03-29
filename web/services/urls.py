@@ -15,7 +15,6 @@ urlpatterns = [
     path("schedule/delete/<int:pk>/", WorkScheduleDelete.as_view(), name="schedule_delete"),
     path("schedule/", WorkScheduleListView.as_view(), name="schedule_list"),
     
-    # path("appointment/", AppointmentCreateView.as_view(), name="appointment"),
     
     path('add/', ServiceAddView.as_view(), name='service_add'),
     path('delete/<int:pk>/', ServiceDeleteView.as_view(), name='service_delete'), 

@@ -33,7 +33,7 @@ class WorkScheduleDelete(LoginRequiredMixin, View):
         schedule = get_object_or_404(WorkSchedule, pk=kwargs["pk"], user=request.user)  # Только свои расписания  
         schedule.delete()  
         return redirect('service:schedule_list')  
-
+    
 
 class ServiceView(LoginRequiredMixin, ListView):  
     model = ServiceModel  
@@ -80,3 +80,6 @@ class ServiceUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)  
         context['service'] = self.object  
         return context  
+
+
+
