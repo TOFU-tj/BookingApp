@@ -5,9 +5,7 @@ from django.views.generic import DeleteView
 from django.urls import reverse, reverse_lazy
 from client_web.models import SuccessModel
 from main_page.forms import UserBlankForm
-from django.core.mail import send_mail
-from django.conf import settings
-
+from main_page.tasks import send_email_task
 
 class OrderViews( ListView):
     model = SuccessModel
@@ -74,14 +72,9 @@ class MainPage(TemplateView):
             message = f"Вы получили новую заявку от {user_blank.name}.\n\n" \
                       f"Email: {user_blank.email}\n" \
                       f"Комментарий: {user_blank.text}"
-
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,  
-                ['dmustafo863@gmail.com'],  
-                fail_silently=False,
-            )
+            recipient_list = ['dmustafo863@gmail.com']
+            
+            send_email_task.delay(subject, message, recipient_list)
 
             return redirect('main:success_page')
         else:
