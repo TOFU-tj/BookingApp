@@ -33,7 +33,6 @@ class UserBlank(forms.ModelForm):
         }
 
 
-
 class ClientScheduleForm(forms.ModelForm):
     select_day = forms.ModelChoiceField(
         queryset=DaySchedule.objects.none(),
@@ -51,22 +50,18 @@ class ClientScheduleForm(forms.ModelForm):
         fields = ['select_day', 'select_time']
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user", None)
+        executor = kwargs.pop("executor", None)  # Берём переданного исполнителя
         super().__init__(*args, **kwargs)
-        if user and user.is_authenticated:
+
+        if executor:
             self.fields["select_day"].queryset = DaySchedule.objects.filter(
-                calendar__owner=user,
+                calendar__owner=executor,  # Фильтруем по исполнителю
                 is_working_day=True
             )
             self.fields["select_time"].queryset = TimeSlot.objects.filter(
-                schedule__calendar__owner=user,
+                schedule__calendar__owner=executor,  # Только слоты этого исполнителя
                 is_available=True
             )
         else:
-            # Если пользователь анонимный, показываем все доступные даты и временные слоты
-            self.fields["select_day"].queryset = DaySchedule.objects.filter(
-                is_working_day=True
-            )
-            self.fields["select_time"].queryset = TimeSlot.objects.filter(
-                is_available=True
-            )
+            self.fields["select_day"].queryset = DaySchedule.objects.filter(is_working_day=True)
+            self.fields["select_time"].queryset = TimeSlot.objects.filter(is_available=True)

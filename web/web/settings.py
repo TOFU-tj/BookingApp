@@ -52,10 +52,9 @@ INSTALLED_APPS = [
     
     'client_web',  
 
-    
-    
-    
     'api'
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -68,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'schedule.middleware.DeletePastDaysMiddleware',
+    'schedule.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'

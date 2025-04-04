@@ -70,13 +70,12 @@ class SuccessModel(models.Model):
         return f"Запись #{self.id}: {self.name.name} записан к {self.executor.username}"
 
     def get_full_details(self):
-    
         return {
             "client": {
-                "name": self.name.name,
-                "surname": self.name.surname,
-                "email": self.name.email,
-                "phone": self.name.phone,
+                "name": self.name.name if self.name else None,
+                "surname": self.name.surname if self.name else None,
+                "email": self.name.email if self.name else None,
+                "phone": str(self.name.phone) if self.name else None,
             },
             "services": [
                 {
@@ -91,10 +90,9 @@ class SuccessModel(models.Model):
                 "time_slot": self.time_history.get("selected_time_slot"),
             },
             "executor": {
-                "username": self.executor.username,
+                "username": self.executor.username if self.executor else None,
                 "company": self.executor.company.name if hasattr(self.executor, "company") else None,
             },
-            "created_at": str(self.created_at),
         }
     
     

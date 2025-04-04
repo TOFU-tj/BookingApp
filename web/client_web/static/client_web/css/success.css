@@ -1,98 +1,159 @@
-/* 🌙 Общие стили */
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #0d0d0d;
-    color: #fff;
-    text-align: center;
-}
-
-/* ✅ Контейнер */
-.success-container {
-    max-width: 800px;
+/* Общий стиль контейнера */
+.thank-you-section {
+    max-width: 600px;
     margin: 50px auto;
     padding: 40px;
-    background: #1a1a1a;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 200, 81, 0.3);
-    animation: fadeIn 0.8s ease-in-out;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
 }
 
-/* 🎉 Заголовок */
-.success-title {
-    font-size: 2.8em;
-    font-weight: 700;
-    background: linear-gradient(90deg, #00c851, #007e33);
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
+/* Анимация фона */
+.thank-you-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(243, 244, 246, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: rotate(45deg);
+    animation: slideBackground 10s infinite linear;
+    z-index: -1;
 }
 
-/* 📝 Сообщение */
-.congratulations-message {
-    margin-top: 20px;
+@keyframes slideBackground {
+    0% {
+        transform: translateX(-50%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(50%) rotate(45deg);
+    }
 }
 
-.congratulations-message p {
-    font-size: 1.4em;
-    opacity: 0.9;
+/* Заголовок */
+.thank-you-section h1 {
+    font-size: 32px;
+    color: #333333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Основной текст */
+.thank-you-section p {
+    font-size: 16px;
+    color: #666666;
+    margin-bottom: 30px;
     line-height: 1.6;
 }
 
-/* 🔥 Кнопка */
-.continue-btn {
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(145deg, #00c851, #007e33);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+/* Блоки данных */
+.client-details,
+.services,
+.selected-time,
+.executor {
     margin-top: 20px;
+    text-align: left;
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.continue-btn:hover {
-    background: #00c851;
-    transform: scale(1.07);
-    box-shadow: 0 10px 20px rgba(0, 200, 81, 0.5);
+.client-details:hover,
+.services:hover,
+.selected-time:hover,
+.executor:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-.continue-btn:active {
-    transform: scale(0.95);
+.client-details h2,
+.services h2,
+.selected-time h2,
+.executor h2 {
+    font-size: 20px;
+    color: #333333;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
-/* 🌀 Анимация появления */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.client-details p,
+.services p,
+.selected-time p,
+.executor p {
+    font-size: 14px;
+    color: #555555;
+    margin: 5px 0;
 }
 
-/* 📱 Адаптивность */
-@media (max-width: 768px) {
-    .success-container {
-        width: 90%;
-        padding: 30px;
-    }
+/* Список услуг */
+.services ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
 
-    .success-title {
-        font-size: 2.4em;
-    }
+.services li {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 5px;
+}
 
-    .congratulations-message p {
-        font-size: 1.2em;
-    }
+/* Кнопка возврата на главную */
+.btn-primary {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    .continue-btn {
-        font-size: 1.1em;
-        padding: 10px 20px;
-    }
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Сообщения */
+.messages {
+    margin-top: 20px;
+}
+
+.message {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.message.success {
+    background-color: #28a745;
+}
+
+.message.error {
+    background-color: #dc3545;
+}
+
+.message.warning {
+    background-color: #ffc107;
+    color: #333333;
+}
+
+/* Отладочная информация */
+.error {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 10px;
 }

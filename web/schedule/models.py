@@ -37,7 +37,7 @@ class DaySchedule(models.Model):
 
         current_time = start_time
         while current_time < end_time:
-            next_time = (datetime.combine(date.today(), current_time) + timedelta(minutes=15)).time()
+            next_time = (datetime.combine(date.today(), current_time) + timedelta(minutes=20)).time()
             TimeSlot.objects.get_or_create(
                 schedule=self,
                 start_time=current_time,

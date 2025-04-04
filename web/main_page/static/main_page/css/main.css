@@ -3,9 +3,9 @@
     max-width: 1000px;
     margin: 50px auto;
     padding: 40px;
-    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    background: linear-gradient(145deg, #1e1e1e, #292929);
     border-radius: 20px;
-    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
     color: white;
     animation: fadeIn 0.8s ease-in-out;
@@ -13,7 +13,7 @@
 
 /* 🎨 Заголовок */
 .record-title {
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: 2.8rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -21,24 +21,25 @@
     background: linear-gradient(90deg, #ff416c, #ff4b2b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(255, 75, 43, 0.8);
+    text-shadow: 0 0 20px rgba(255, 75, 43, 0.7);
 }
 
 /* 📝 Карточки записей */
 .record-card {
-    background: rgba(12, 10, 10, 0.1);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
     padding: 25px;
     margin-bottom: 20px;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(255, 75, 43, 0.3);
+    box-shadow: 0 8px 25px rgba(255, 75, 43, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: slideUp 0.6s ease-in-out;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
 }
 
+/* 🎭 Эффект при наведении */
 .record-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 50px rgba(255, 75, 43, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 75, 43, 0.3);
 }
 
 /* 🔹 Секции карточек */
@@ -46,78 +47,83 @@
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.08);
-    transition: background 0.3s ease;
-}
-
-.record-section:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
 }
 
 /* 🏷 Заголовки секций */
 .section-title {
-    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-size: 1.6rem;
     font-weight: bold;
     color: #ffb142;
     margin-bottom: 12px;
 }
 
-/* 📋 Список услуг */
+/* 📋 Список данных клиента и услуг */
+.info-list,
 .services-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
+.info-list li,
 .services-list li {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-size: 1.2rem;
     background: rgba(255, 255, 255, 0.15);
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 8px;
     margin-bottom: 8px;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease;
 }
 
+/* 🌟 Эффект при наведении на элементы списка */
+.info-list li:hover,
 .services-list li:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.25);
 }
 
-/* 🕒 Время записи */
-.record-time p {
-    font-size: clamp(1.2rem, 3vw, 1.4rem);
+/* 🕒 Дата и время записи */
+.record-section p {
+    font-size: 1.4rem;
     font-weight: bold;
     color: #00c851;
+    margin: 0;
 }
 
 /* ❌ Нет записей */
 .no-records {
-    font-size: clamp(1.4rem, 4vw, 1.6rem);
+    font-size: 1.6rem;
     color: #ff4b2b;
     font-weight: bold;
     margin-top: 20px;
 }
 
 /* 🔴 Кнопка удаления */
+.delete-form {
+    text-align: center;
+    margin-top: 20px;
+}
+
 .delete-btn {
     display: inline-block;
-    padding: 12px 30px;
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    padding: 12px 25px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: white;
-    background: linear-gradient(135deg, #ff4d4d, #d63031);
+    background-color: #ff4d4d;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 5px 20px rgba(255, 77, 77, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.5);
 }
 
 .delete-btn:hover {
-    background: linear-gradient(135deg, #ff1a1a, #c0392b);
-    transform: scale(1.07);
-    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.7);
+    background-color: #ff1a1a;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 77, 77, 0.7);
 }
 
 .delete-btn:active {
@@ -128,7 +134,7 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-15px);
     }
     to {
         opacity: 1;
@@ -139,7 +145,7 @@
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -153,32 +159,21 @@
         width: 95%;
         padding: 25px;
     }
+
     .record-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
+
     .record-card {
         padding: 20px;
     }
-    .delete-btn {
-        padding: 10px 22px;
-        font-size: 1rem;
-    }
-}
 
-@media (max-width: 480px) {
-    .record-container {
-        padding: 15px;
+    .section-title {
+        font-size: 1.4rem;
     }
-    .record-title {
-        font-size: 1.8rem;
-    }
-    .record-card {
-        padding: 15px;
-    }
-    .record-section {
-        padding: 10px;
-    }
+
+    .info-list li,
     .services-list li {
-        padding: 10px;
+        font-size: 1rem;
     }
 }

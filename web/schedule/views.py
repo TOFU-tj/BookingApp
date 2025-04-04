@@ -17,7 +17,7 @@ def calendar_view(request):
     calendar, created = BusinessCalendar.objects.get_or_create(owner=request.user)
 
     schedules = DaySchedule.objects.filter(calendar=calendar).order_by('date')
-    print("Schedules:", schedules)  # Отладочная информация
+    # print("Schedules:", schedules)  # Отладочная информация
     return render(request, 'schedule/calendar.html', {'schedules': schedules})
 
 
@@ -47,6 +47,9 @@ def edit_schedule(request, pk):
     })
 
 
+
+
+
 class CreateDay(LoginRequiredMixin, CreateView):
     template_name = "schedule/create_day.html"
     model = DaySchedule
@@ -55,15 +58,18 @@ class CreateDay(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         user = self.request.user
-        calendar = BusinessCalendar.objects.get(owner=user)
+        calendar = get_object_or_404(BusinessCalendar, owner=user)
 
         # Проверяем, существует ли уже расписание для этой даты
         if DaySchedule.objects.filter(calendar=calendar, date=form.cleaned_data['date']).exists():
             messages.error(self.request, 'Расписание для этой даты уже существует.')
             return super().form_invalid(form)
 
-        # Привязываем расписание к календарю пользователя
+        # Привязываем расписание к календарю пользователя и устанавливаем owner и executor
         form.instance.calendar = calendar
+        form.instance.owner = user  # Устанавливаем текущего пользователя как owner
+        form.instance.executor = user  # Устанавливаем текущего пользователя как executor
+
         messages.success(self.request, 'Расписание успешно создано.')
         return super().form_valid(form)
 
@@ -74,21 +80,17 @@ class CreateDay(LoginRequiredMixin, CreateView):
             initial['date'] = date
         return initial
     
-    
-    
 class WorkDayDelete(LoginRequiredMixin, View):
-    
     def post(self, request, *args, **kwargs):
-    
-        schedule = get_object_or_404(DaySchedule, pk=kwargs["pk"], calendar__owner=request.user) 
+        schedule = get_object_or_404(DaySchedule, pk=kwargs["pk"], calendar__owner=request.user)
+        print(f"Deleting schedule: {schedule}")  # Отладочная информация
         schedule.delete()
         messages.success(request, 'Расписание успешно удалено.')
         return redirect('schedule:calendar')
-        
-        
+
 
 class EditDayView(LoginRequiredMixin, UpdateView):
-    """Представление для редактирования дня."""
+
     model = DaySchedule
     fields = ['date', 'is_working_day']
     template_name = 'schedule/edit-day.html'
@@ -103,13 +105,10 @@ class EditDayView(LoginRequiredMixin, UpdateView):
         schedule = self.get_object()
         context['time_slots'] = schedule.time_slots.all()  # Получаем все временные слоты для этого дня
         return context
-    
-
-
 
 
 @login_required
-def edit_time_slot(request, pk):     
+def edit_time_slot(request, pk):
     time_slot = get_object_or_404(TimeSlot, id=pk, schedule__calendar__owner=request.user)
 
     if request.method == 'POST':

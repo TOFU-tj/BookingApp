@@ -1,102 +1,90 @@
-/* 🌙 Общие стили */
+/* Пример необычного дизайна для формы */
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #0d0d0d;
+    background: linear-gradient(135deg, #34a853, #4285f4); /* Два красивых цвета */
+    font-family: "Arial", sans-serif;
     color: #fff;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
 }
 
-/* 📌 Контейнер страницы */
 .form-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #1a1a1a;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(255, 75, 43, 0.2);
-    animation: fadeIn 0.8s ease-in-out;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 25px;
+    width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fadeIn 1s ease-out;
 }
 
-/* 🎨 Заголовок */
 .form-title {
-    font-size: 2.5em;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    background: linear-gradient(90deg, #ff4b2b, #e52e71);
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 10px rgba(255, 75, 43, 0.6);
-    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 15px;
 }
 
-/* 🏷️ Описание формы */
 .form-description {
-    font-size: 1.2em;
-    opacity: 0.9;
-    margin-bottom: 30px;
+    font-size: 14px;
+    margin-bottom: 25px;
+    opacity: 0.8;
 }
 
-/* 📦 Группа полей */
 .form-group {
     margin-bottom: 20px;
-    text-align: left;
+    position: relative;
 }
 
-/* 🏷️ Метки */
-.form-label {
+.form-group label {
     display: block;
-    font-size: 1.2em;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #ff4b2b;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* 📜 Выпадающие списки */
-input[type="text"],
-select,
-textarea {
+.form-group select {
     width: 100%;
     padding: 12px;
-    font-size: 1em;
-    background-color: #2a2a2a;
+    font-size: 16px;
+    border-radius: 5px;
     border: none;
-    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.form-group select:hover {
+    background: #f1f1f1;
+}
+
+button {
+    padding: 12px 30px;
+    background-color: #4285f4;
+    border: none;
     color: #fff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-    transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
-}
-
-/* 🔥 Кнопка отправки */
-.btn-primary {
-    padding: 12px 20px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(145deg, #ff4b2b, #ff416c);
-    border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-top: 20px;
+    font-size: 16px;
+    transition: transform 0.3s ease;
 }
 
-.btn-primary:hover {
-    background: #ff4b2b;
-    transform: scale(1.07);
-    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
+button:hover {
+    transform: scale(1.05);
+    background-color: #34a853;
 }
 
-.btn-primary:active {
-    transform: scale(0.95);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* 🌀 Анимация появления */
@@ -149,3 +137,4 @@ textarea:focus {
         padding: 10px 15px;
     }
 }
+

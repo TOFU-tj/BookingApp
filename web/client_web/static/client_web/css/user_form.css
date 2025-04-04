@@ -1,0 +1,176 @@
+body {
+    background: linear-gradient(135deg, #34a853, #4285f4); /* Два красивых цвета */
+    font-family: "Arial", sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Общие стили для контейнера формы */
+.user-form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Заголовок формы */
+.form-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Описание формы */
+.form-description {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Стили для каждого поля формы */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+/* Стили для всех input, textarea */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+}
+
+/* При фокусе на поле */
+.input-field:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Для кнопки отправки */
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Эффект при наведении на кнопку */
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+    .user-form-container {
+        padding: 20px;
+    }
+
+    .form-title {
+        font-size: 24px;
+    }
+
+    .form-description {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        font-size: 16px;
+    }
+}
+
+
+
+/* 📱 Адаптивность */
+@media (max-width: 1024px) {
+    .schedule-container {
+        padding: 30px;
+    }
+
+    .schedule-title {
+        font-size: 2.8em;
+    }
+
+    .schedule-list {
+        grid-template-columns: repeat(2, 1fr); /* Для экранов среднего размера */
+    }
+
+    .schedule-item {
+        max-width: 300px; /* Увеличиваем карточки */
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .schedule-title {
+        font-size: 2.5em;
+    }
+
+    .schedule-list {
+        grid-template-columns: repeat(1, 1fr); /* Одна колонка на мобильных устройствах */
+    }
+
+    .schedule-item {
+        max-width: 100%;
+        min-height: 200px; /* Увеличиваем минимальную высоту карточек */
+    }
+
+    .select-btn {
+        font-size: 1.2em;
+        padding: 10px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .schedule-title {
+        font-size: 2.2em;
+    }
+
+    .schedule-item {
+        padding: 20px;
+    }
+
+    .schedule-status {
+        font-size: 1.2em;
+    }
+
+    .select-btn {
+        font-size: 1.1em;
+        padding: 8px 12px;
+    }
+}
+

@@ -119,16 +119,12 @@ class SuccessView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         last_entry = self.get_queryset().last()
-
         if last_entry:
-            context["user"] = last_entry.name
-            context["basket_items"] = last_entry.basket_history
-            context["time_slot"] = last_entry.time_slot  # Добавляем временной слот в контекст
-        else:
-            print("No entries found in SuccessModel.")  # Отладочная информация
-
+            
+            context["user_details"] = last_entry.get_full_details()
+            
         return context
-    
+
     
 
 
@@ -150,19 +146,18 @@ class ScheduleView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
+        executor = get_object_or_404(User, username=self.kwargs['slug_username'])  # Находим исполнителя
+        kwargs["executor"] = executor  # Передаём в форму
         return kwargs
 
     def get(self, request, *args, **kwargs):
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             date_id = request.GET.get("date")
-            print(f"Received AJAX request for date ID: {date_id}")  # Отладочная информация
             if date_id:
                 available_slots = TimeSlot.objects.filter(
                     schedule_id=date_id,
                     is_available=True
                 ).values("id", "start_time", "end_time")
-                print(f"Available slots: {list(available_slots)}")  # Отладочная информация
                 return JsonResponse(list(available_slots), safe=False)
             return JsonResponse([], safe=False)
         return super().get(request, *args, **kwargs)
@@ -192,10 +187,7 @@ class ScheduleView(CreateView):
         response = super().form_valid(form)
         return redirect("client:user_form", slug_company=self.kwargs["slug_company"], slug_username=self.kwargs["slug_username"])
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
-        return kwargs
+
 
     def get_success_url(self):
         return reverse('client:user_form', kwargs={

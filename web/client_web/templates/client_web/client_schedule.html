@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
+    <!-- Подключаем ваш CSS файл -->
     <link rel="stylesheet" href="{% static 'client_web/css/schedule_form.css' %}">
 {% endblock %}
 
@@ -9,9 +10,14 @@
     <div class="form-container" 
         data-slug-company="{{ slug_company }}" 
         data-slug-username="{{ slug_username }}">
+        
+        <!-- Заголовок -->
         <h1 class="form-title">Запись на услугу</h1>
+        
+        <!-- Описание -->
         <p class="form-description">Выберите дату и время для записи.</p>
 
+        <!-- Форма записи -->
         <form method="post" id="schedule-form">
             {% csrf_token %}
 
@@ -27,6 +33,7 @@
                 {{ form.select_time }}
             </div>
 
+            <!-- Кнопка отправки -->
             <button type="submit" class="btn btn-primary">Записаться</button>
         </form>
     </div>
