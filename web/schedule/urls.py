@@ -5,7 +5,7 @@ from django.views.decorators.cache import cache_page
 app_name = "schedule"
 
 urlpatterns = [
-    path('', cache_page(30)(views.calendar_view), name='calendar'),
+    path('', views.calendar_view, name='calendar'),
     path('edit/<int:pk>/', views.edit_schedule, name='edit_schedule'),
     path('create-day/', views.CreateDay.as_view(), name='create_day'),
     path('delete/<int:pk>/', views.WorkDayDelete.as_view(), name='delete'),

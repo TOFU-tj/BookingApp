@@ -23,7 +23,7 @@ urlpatterns = [
     
     path ('client_web_page/', include('client_web.urls', namespace='client_web')),
     
-    path('subscription_page', include('subscription.urls', namespace='subscription')), 
+    path('subscription_page/', include('subscription.urls', namespace='subscription')), 
     
     path('api/', include('api.urls')), 
     
