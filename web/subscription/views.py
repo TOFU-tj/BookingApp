@@ -16,7 +16,7 @@ def create_checkout_session(request):
 
     price_id = request.POST.get('price_id')
     if not price_id:
-        return render(request, 'main_page/main_page.html', {'error': 'Price ID is required', 'subscription': subscription})
+        return render(request, 'subscription/subscription_page.html', {'error': 'Price ID is required', 'subscription': subscription})
 
     try:
         # Создаем сессию Stripe Checkout

@@ -1,0 +1,34 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'subscription/css/subscription_page.css' %}">
+{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+    <section id="pricing" class="pricing">
+        <h2>Наши тарифы</h2>
+        <p>Выберите подходящий план для вашего бизнеса:</p>
+        <div class="pricing-container">
+            <div class="pricing-card">
+                <h3>Базовый план</h3>
+                <p class="price">$10<span>/месяц</span></p>
+                <ul class="features-list">
+                    <li><i class='bx bx-check'></i> Управление записями</li>
+                    <li><i class='bx bx-check'></i> Поддержка клиентов</li>
+                    <li><i class='bx bx-check'></i> Базовая аналитика</li>
+                </ul>
+                <form method="POST" action="{% url 'subscription:subscription' %}" class="subscribe-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="price_id" value="{{ subscription.basic }}">
+                    <button type="submit" class="subscribe-button">Подписаться</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'subscription/js/subscription_page.js' %}"></script>
+{% endblock extra_js %}

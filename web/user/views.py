@@ -5,8 +5,9 @@ from django.contrib import auth
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from user.models import User
-from django.core.exceptions import ValidationError
 from subscription.models import TemporarySubscription
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
 
 class UserLogIn(LoginView): 
     template_name = 'user/login.html'
@@ -25,28 +26,35 @@ class UserRegistrations(CreateView):
     success_url = reverse_lazy('user:login')
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        self.object.is_staff = True
-        self.object.save()
-
-        # Получаем session_id из GET-параметров
         session_id = self.request.GET.get('session_id')
-        if session_id:
-            try:
-                # Находим временную подписку
-                temp_subscription = TemporarySubscription.objects.get(session_key=session_id)
+        if not session_id:
+            return render(self.request, 'user/error.html', {
+                'error': 'Подписка не оплачена. Пожалуйста, оплатите подписку.'
+            })
 
-                # Привязываем подписку к пользователю
-                self.object.subscription = temp_subscription
-                self.object.save()
+        try:
+            # Находим временную подписку
+            temp_subscription = TemporarySubscription.objects.get(
+                session_key=session_id,
+                is_active=True
+            )
 
-                # Обновляем статус подписки
-                temp_subscription.is_active = False
-                temp_subscription.save()
-            except TemporarySubscription.DoesNotExist:
-                pass
+            # Создаем пользователя
+            user = form.save(commit=False)
+            user.subscription = temp_subscription
+            user.is_staff = True
+            user.save()
 
-        return response
+            # Деактивируем временную подписку
+            temp_subscription.is_active = False
+            temp_subscription.save()
 
-    def form_invalid(self, form):
-        return super().form_invalid(form)
+            # Авторизуем пользователя
+            login(self.request, user)
+
+            return redirect(self.success_url)
+
+        except TemporarySubscription.DoesNotExist:
+            return render(self.request, 'user/registration.html', {
+                'error': 'Подписка не найдена или уже использована.'
+            })

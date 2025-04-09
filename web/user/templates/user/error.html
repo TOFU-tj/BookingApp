@@ -1,0 +1,25 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'user/static/user/css/error.css' %}">
+{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+<body>
+    <div class="error-page">
+        <div class="error-icon">😡</div>
+        <h1>Oops!</h1>
+        <h4>You don't have an active subscription</h4>
+        <p>To access premium features, please purchase a subscription.</p>
+        <div class="get-subscription-link">
+            <a href="{% url 'subscription:subscription' %}" class="subscribe-button">Get your subscription now</a>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'user/js/login.js' %}"></script>
+{% endblock %}

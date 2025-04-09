@@ -127,11 +127,6 @@ class SuccessView(ListView):
 
     
 
-
-
-
-
-
 class ScheduleView(CreateView):
     template_name = 'client_web/client_schedule.html'
     model = ClientSchedule
@@ -146,8 +141,8 @@ class ScheduleView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        executor = get_object_or_404(User, username=self.kwargs['slug_username'])  # Находим исполнителя
-        kwargs["executor"] = executor  # Передаём в форму
+        executor = get_object_or_404(User, username=self.kwargs['slug_username'])  
+        kwargs["executor"] = executor  
         return kwargs
 
     def get(self, request, *args, **kwargs):
@@ -165,14 +160,14 @@ class ScheduleView(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            # Устанавливаем session_key
+            
             form.instance.session_key = request.session.session_key
 
-            # Получаем выбранные значения из формы
+            
             selected_date = form.cleaned_data['select_day']
             selected_time_slot = form.cleaned_data['select_time']
 
-            # Устанавливаем значения в экземпляр модели
+            
             form.instance.date = selected_date
             form.instance.time_slot = selected_time_slot
 
@@ -196,8 +191,6 @@ class ScheduleView(CreateView):
         })
     
     
-
-
 
 class UserFormView(CreateView): 
     model = UserForm
@@ -229,12 +222,12 @@ class UserFormView(CreateView):
         executor = get_object_or_404(User, username=self.kwargs["slug_username"])
         basket_history = self._serialize_basket(basket)
 
-        # Получаем последнюю запись из ClientSchedule
+        
         client_schedule = ClientSchedule.objects.filter(
             session_key=session_key
         ).last()
 
-        # Создаем запись в SuccessModel
+    
         success_record = SuccessModel.objects.create(
             name=user_form,
             executor=executor,
@@ -277,3 +270,4 @@ class UserFormView(CreateView):
                 "slug_username": self.kwargs["slug_username"],
             }
         )
+        

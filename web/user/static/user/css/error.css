@@ -1,0 +1,122 @@
+/* Общие стили */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212; /* Темный фон */
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Контейнер ошибки */
+.error-page {
+    background: linear-gradient(145deg, #FF4B2B, #FF416C); /* Оранжево-красный градиент */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Иконка ошибки */
+.error-icon {
+    font-size: 8em; /* Большой размер смайлика */
+    margin-bottom: 20px;
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+/* Заголовок */
+.error-page h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+/* Подзаголовок */
+.error-page h4 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Текст */
+.error-page p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+/* Кнопка подписки */
+.subscribe-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #FFD700; /* Золотой цвет */
+    color: #121212; /* Темный текст */
+    font-size: 1.2em;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.subscribe-button:hover {
+    background: #FFA500; /* Ярко-оранжевый при наведении */
+    transform: scale(1.05); /* Легкое увеличение */
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация тряски для смайлика */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .error-page {
+        padding: 20px;
+    }
+
+    .error-icon {
+        font-size: 6em;
+    }
+
+    .error-page h1 {
+        font-size: 2em;
+    }
+
+    .error-page h4 {
+        font-size: 1.2em;
+    }
+
+    .error-page p {
+        font-size: 1em;
+    }
+}
