@@ -52,6 +52,9 @@ def create_checkout_session(request):
         return render(request, 'main_page/main_page.html', {'error': str(e), 'subscription': subscription})
     
     
+
+
+
 def success(request):
     return render(request, 'subscription/success.html')
 

@@ -8,11 +8,19 @@ from user.models import User
 from subscription.models import TemporarySubscription
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
-class UserLogIn(LoginView): 
+
+class UserLogIn(LoginView):
     template_name = 'user/login.html'
-    form_class = UserLogInForm 
-    
+    form_class = UserLogInForm
+
+    def form_valid(self, form):
+        user = form.get_user()
+        if user.subscription and user.subscription.is_expired():
+            user.delete_if_subscription_expired()
+            return redirect('subscription:subscription')  # Перенаправляем на страницу входа
+        return super().form_valid(form)
     
 def logout(request): 
     auth.logout(request)
@@ -58,3 +66,11 @@ class UserRegistrations(CreateView):
             return render(self.request, 'user/registration.html', {
                 'error': 'Подписка не найдена или уже использована.'
             })
+            
+@login_required
+def renew_subscription(request):
+    user = request.user
+    if user.subscription and user.subscription.is_expired():
+        user.subscription.renew_subscription()
+        return redirect('user:profile')  # Перенаправляем на страницу профиля
+    return redirect('user:subscription_expired')

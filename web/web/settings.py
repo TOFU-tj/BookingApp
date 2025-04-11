@@ -51,8 +51,6 @@ INSTALLED_APPS = [
     'schedule',
     
     'client_web',  
-
-    'api'
     
     
 ]
@@ -108,6 +106,14 @@ CACHES = {
     }
 }
 
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'check-subscriptions': {
+        'task': 'user.tasks.check_subscriptions',
+        'schedule': crontab(hour=0, minute=0),  # Ежедневно в полночь
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
