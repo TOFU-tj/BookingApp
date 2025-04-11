@@ -63,17 +63,45 @@ class UserRegistrationForm(UserCreationForm):
             'company_name', 'password1', 'password2'
         )
         
-    def save(self, commit=True):
-        user = super().save(commit=False)  # Создаем объект, но не сохраняем его в БД
-        if commit:
-            user.save()  # Сохраняем объект в БД
-        return user
+    def clean_username(self):
+
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username__iexact=username).exists():
+            raise ValidationError("Пользователь с таким именем уже существует.")
+        return username.lower()
+    
+    
+
     
     def clean_company_name(self):
-
+        """
+        Приводим название компании к нижнему регистру.
+        """
         company_name = self.cleaned_data.get('company_name')
         if ' ' in company_name:
             raise ValidationError("Название компании не должно содержать пробелы.")
         if not company_name.replace('_', '').isalnum():
             raise ValidationError("Название компании может содержать только буквы, цифры и символ '_'.")
-        return company_name.lower()  # Приводим к нижнему регистру
+        return company_name.lower()
+    
+    def clean_email(self):
+        """
+        Приводим email к нижнему регистру.
+        """
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError("Пользователь с таким email уже существует.")
+        return email.lower()
+    
+    def save(self, commit=True):
+        """
+        Сохраняем пользователя с нормализованными данными.
+        """
+        user = super().save(commit=False)
+        user.username = self.cleaned_data['username'].lower()
+        user.email = self.cleaned_data['email'].lower()
+        user.company_name = self.cleaned_data['company_name'].lower()
+        if commit:
+            user.save()
+        return user
+    

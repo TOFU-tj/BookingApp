@@ -8,8 +8,10 @@ from django.views import View
 from django.utils import timezone
 from datetime import timedelta
 from schedule.models import  DaySchedule, TimeSlot
-from django.http import JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib import messages
+from django.core.mail import send_mail
+from client_web.tasks import send_email_task
 
 
 class ClientServicesListView(ListView):
@@ -123,6 +125,7 @@ class SuccessView(ListView):
             
             context["user_details"] = last_entry.get_full_details()
             
+         
         return context
 
     
@@ -245,8 +248,9 @@ class UserFormView(CreateView):
             self.request.session.flush()  # Удаляем текущую сессию
         self.request.session.create()  # Создаем новую сессию
 
-        # Добавляем сообщение об успехе
-        messages.success(self.request, "Запись успешно создана!")
+        
+        self.send_confirmation_email(user_form, success_record)
+
 
         return super().form_valid(form)
 
@@ -269,5 +273,34 @@ class UserFormView(CreateView):
                 "slug_company": self.kwargs["slug_company"],
                 "slug_username": self.kwargs["slug_username"],
             }
+        )        
+    
+    def send_confirmation_email(self, user_form, success_record):
+        subject = 'Подтверждение записи'
+        selected_date = success_record.time_history.get("selected_date", "Не указана")
+        selected_time_slot = success_record.time_history.get("selected_time_slot", "Не указано")
+        
+        message = (
+            f"Здравствуйте, {user_form.name}!\n\n"
+            f"Вы успешно записались на услугу.\n"
+            f"Дата: {selected_date}\n"
+            f"Время: {selected_time_slot}\n\n"
+            f"Исполнитель: {success_record.executor.username}\n"
+            f"Список услуг:\n"
         )
         
+        # Добавляем список услуг
+        for item in success_record.basket_history:
+            message += f"- {item['service']} (Количество: {item['quantity']}, Цена: {item['price']})\n"
+
+        # Отправляем письмо через Celery
+        send_email_task.delay(
+            subject=subject,
+            message=message,
+            recipient_list=[user_form.email]
+        )
+            
+        
+
+        
+
