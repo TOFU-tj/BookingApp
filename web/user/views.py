@@ -32,7 +32,7 @@ class UserRegistrations(CreateView):
     template_name = "user/registration.html"
     form_class = UserRegistrationForm
     model = User
-    success_url = reverse_lazy('user:login')  # Перенаправляем на страницу входа
+    success_url = reverse_lazy('user:login')
 
     def form_valid(self, form):
         session_id = self.request.GET.get('session_id')
@@ -45,7 +45,7 @@ class UserRegistrations(CreateView):
             # Находим временную подписку
             temp_subscription = TemporarySubscription.objects.get(
                 session_key=session_id,
-                is_active=True
+                is_active=False
             )
 
             # Создаем пользователя
@@ -54,11 +54,9 @@ class UserRegistrations(CreateView):
             user.is_staff = True
             user.save()
 
-            # Деактивируем временную подписку
-            temp_subscription.is_active = False
+            # Активируем временную подписку
+            temp_subscription.is_active = True
             temp_subscription.save()
-
-            # Не авторизуем пользователя автоматически
 
             return redirect(self.success_url)
 

@@ -11,20 +11,16 @@ class TemporarySubscription(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()  # Дата окончания подписки
     is_active = models.BooleanField(default=False)
+    activation_token = models.UUIDField(default=uuid.uuid4, unique=True)
     
 
+    
     def save(self, *args, **kwargs):
-        """
-        Автоматически устанавливаем end_date при создании подписки.
-        """
         if not self.end_date:
-            self.end_date = timezone.now() + timezone.timedelta(days=40)  # Подписка длится 40 дней
+            self.end_date = timezone.now() + timezone.timedelta(days=40)
         super().save(*args, **kwargs)
 
     def activate(self):
-        """
-        Активирует подписку.
-        """
         self.is_active = True
         self.save()
 
