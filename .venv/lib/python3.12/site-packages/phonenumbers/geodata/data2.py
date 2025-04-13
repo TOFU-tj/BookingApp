@@ -6080,6 +6080,7 @@ data = {
  '1819985':{'en': 'Thurso, QC'},
  '1819986':{'en': 'Gatineau, QC'},
  '1820':{'en': 'California'},
+ '1821':{'en': 'South Carolina'},
  '1825':{'en': 'Alberta'},
  '1826':{'en': 'Virginia'},
  '1828':{'en': 'North Carolina'},
@@ -10018,5 +10019,4 @@ data = {
  '1918653':{'en': 'Heavener, OK'},
  '1918660':{'en': 'Tulsa, OK'},
  '1918663':{'en': 'Tulsa, OK'},
- '1918664':{'en': 'Tulsa, OK'},
 }

@@ -108,10 +108,11 @@ CACHES = {
 
 from celery.schedules import crontab
 
+
 CELERY_BEAT_SCHEDULE = {
-    'check-subscriptions': {
-        'task': 'user.tasks.check_subscriptions',
-        'schedule': crontab(hour=0, minute=0),  # Ежедневно в полночь
+    'update-subscription-statuses': {
+        'task': 'subscription.tasks.update_subscription_statuses',
+        'schedule': crontab(hour=0, minute=0),  # Выполнять задачу каждый день в полночь
     },
 }
 

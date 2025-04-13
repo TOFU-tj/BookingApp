@@ -1,0 +1,104 @@
+/* Стиль секции профиля */
+.profile-section {
+    padding: 60px 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    text-align: center;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.profile-actions .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #FF4B2B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1.2em;
+    transition: background 0.3s ease;
+}
+
+.profile-actions .button:hover {
+    background: #FF416C;
+}
+
+/* Стиль секции профиля */
+.profile-section {
+    padding: 60px 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    text-align: center;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.profile-actions .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #FF4B2B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1.2em;
+    transition: background 0.3s ease;
+}
+
+.profile-actions .button:hover {
+    background: #FF416C;
+}
+
+/* Стиль для кнопки отмены подписки */
+.cancel-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #FF4B2B; /* Оранжевый цвет */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1.2em;
+    transition: background 0.3s ease;
+}
+
+.cancel-button:hover {
+    background: #FF416C; /* Более красный оттенок при наведении */
+}

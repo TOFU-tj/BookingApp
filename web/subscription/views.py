@@ -1,11 +1,12 @@
 import stripe
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from subscription.models import TemporarySubscription
 from django.utils.timezone import now
 from django.utils import timezone
-
+from django.shortcuts import HttpResponseRedirect
+from django.contrib import messages
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -53,8 +54,32 @@ def create_checkout_session(request):
     
     
 
+def cancel_subscription(request, pk):
+    """
+    Отменяет подписку пользователя.
+    """
+    user = request.user
+    if not user.is_authenticated:
+        messages.error(request, "Вы должны быть авторизованы для отмены подписки.")
+        return redirect(reverse('user:profile'))
 
+    try:
+        # Находим подписку, связанную с текущим пользователем
+        subscription = get_object_or_404(
+            TemporarySubscription,
+            id=pk,
+            user=user  # Убедитесь, что подписка принадлежит текущему пользователю
+        )
+    except TemporarySubscription.DoesNotExist:
+        messages.error(request, "Подписка не найдена или уже отменена.")
+        return redirect(reverse('user:profile'))
 
+    # Отменяем подписку
+    subscription.cancel()
+    messages.success(request, f"Ваша подписка успешно отменена. Дата окончания: {subscription.end_date.strftime('%d.%m.%Y')}")
+
+    return redirect(reverse('user:profile'))
+    
 def success(request):
     return render(request, 'subscription/success.html')
 

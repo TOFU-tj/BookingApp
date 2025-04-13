@@ -1,0 +1,16 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "user/css/email.css" %}">
+{% endblock extra_css %}
+{% block title %}<title>Email подтвержден</title>{% endblock %}
+
+{% block body %}
+<section class="email-verified-section">
+    <div class="email-verified-container">
+        <h1>Ваш email успешно подтвержден!</h1>
+        <p>Теперь вы можете полноценно использовать наш сервис.</p>
+        <a href="{% url 'user:login' %}" class="button">Перейти в профиль</a>
+    </div>
+</section>
+{% endblock %}

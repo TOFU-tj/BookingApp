@@ -1,0 +1,92 @@
+{% extends "main_page/base.html" %}
+{% load static %}
+
+{% block title %}<title>Профиль пользователя</title>{% endblock %}
+
+{% block body %}
+{% include "main_page/base.html" %}
+<div class="profile-container">
+    <h1>Профиль пользователя</h1>
+    <div class="profile-info">
+        
+        <p><strong>Фамилия:</strong> {{ user.name_and_surname }}</p>
+        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+
+        {% if is_active %}
+            <p><strong>Статус подписки:</strong> 
+                <span style="color: green;">Активна</span>
+            </p>
+            <p><strong>Дата окончания подписки:</strong> {{ subscription_end_date }}</p>
+            <form method="POST" action="{% url 'subscription:cancel_subscription' user.subscription.id %}">
+                {% csrf_token %}
+                <button type="submit" class="cancel-subscription-button">Отменить подписку</button>
+            </form>
+        {% else %}
+            <p><strong>Статус подписки:</strong> 
+                <span style="color: red;">Неактивна</span>
+            </p>
+            <p><strong>Дата окончания подписки:</strong> {{ subscription_end_date }}</p>
+            <a href="{% url 'subscription:subscription' %}" class="subscribe-button">Оформить подписку за $10</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Стиль контейнера профиля */
+    .profile-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #1f1f1f;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        text-align: left;
+        color: #fff;
+    }
+
+    .profile-info p {
+        font-size: 1.2em;
+        margin: 10px 0;
+    }
+
+    .profile-info strong {
+        color: #FF4B2B;
+    }
+
+    /* Кнопка "Отменить подписку" */
+    .cancel-subscription-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #FF4B2B; /* Оранжево-красный цвет */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .cancel-subscription-button:hover {
+        background-color: #FF6A47; /* Более светлый оттенок при наведении */
+    }
+    
+    /* Кнопка "Оформить подписку" */
+    .subscribe-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50; /* Зеленый цвет */
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+        background-color: #45A049; /* Более темный оттенок при наведении */
+    }
+    }
+</style>
+{% endblock %}

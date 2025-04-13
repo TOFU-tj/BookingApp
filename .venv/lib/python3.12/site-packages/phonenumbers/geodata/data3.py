@@ -19,6 +19,7 @@ from ..util import u
 # limitations under the License.
 
 data = {
+ '1918664':{'en': 'Tulsa, OK'},
  '1918665':{'en': 'Tulsa, OK'},
  '191868':{'en': 'Muskogee, OK'},
  '1918689':{'en': 'Eufaula, OK'},
@@ -5831,7 +5832,6 @@ data = {
  '2747':{'en': 'Butterworth/Eastern part of Eastern Cape/Mthatha'},
  '2748':{'en': 'Cradock/Northern part of Eastern Cape/Steynsburg'},
  '2749':{'en': 'Graaff-Reinet/Western part of Eastern Cape'},
- '2750':{'en': 'Aliwal North/Bloemfontein/Far eastern part of Eastern Cape/Southern and Central Free State'},
  '2751':{'en': 'Aliwal North/Bloemfontein/Far eastern part of Eastern Cape/Southern and Central Free State'},
  '2753':{'en': 'Eastern part of Northern Cape/Far western part of North West/Kimberley/Kuruman'},
  '2754':{'en': 'Upington/Gordonia'},

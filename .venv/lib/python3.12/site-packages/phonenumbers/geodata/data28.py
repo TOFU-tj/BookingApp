@@ -19,7 +19,6 @@ from ..util import u
 # limitations under the License.
 
 data = {
- '9171854':{'en': 'Pauni, Maharashtra'},
  '9171855':{'en': 'Pauni, Maharashtra'},
  '9171856':{'en': 'Pauni, Maharashtra'},
  '9171857':{'en': 'Pauni, Maharashtra'},

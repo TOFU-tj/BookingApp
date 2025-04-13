@@ -6,6 +6,7 @@ from django.urls import reverse, reverse_lazy
 from client_web.models import SuccessModel
 from main_page.forms import UserBlankForm
 from main_page.tasks import send_email_task
+from django.contrib.auth.decorators import login_required
 
 class OrderViews( ListView):
     model = SuccessModel
@@ -38,7 +39,7 @@ class RecordDeleteView(DeleteView):
         return SuccessModel.objects.filter(executor=self.request.user)
 
 
-
+@login_required
 def generate_client_service_link(request):
     user = request.user
     if user.is_authenticated and user.slug_company and user.slug_username:

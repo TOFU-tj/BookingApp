@@ -1,0 +1,43 @@
+/* Секция подтверждения email */
+.email-verified-section {
+    padding: 60px 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+    text-align: center;
+}
+
+.email-verified-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: linear-gradient(145deg, rgba(255, 75, 43, 0.9), rgba(238, 149, 5, 0.9));
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.email-verified-container h1 {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.email-verified-container p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.email-verified-container .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #FF4B2B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1.2em;
+    transition: background 0.3s ease;
+}
+
+.email-verified-container .button:hover {
+    background: #FF416C;
+}

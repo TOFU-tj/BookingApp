@@ -3212,8 +3212,7 @@ data = {
  '52652':{'en': 'Chihuahua', 'es': 'Chihuahua'},
  '52653':{'en': 'Luis B. Sanchez/San Luis Rio Colorado, SON', 'es': u('Luis B. S\u00e1nchez/San Luis R\u00edo Colorado, SON')},
  '52656':{'en': 'Chihuahua', 'es': 'Chihuahua'},
- '526571':{'en': 'Chihuahua', 'es': 'Chihuahua'},
- '526572':{'en': 'Juarez/Chihuahua', 'es': 'Juarez/Chihuahua'},
+ '52657':{'en': 'Chihuahua', 'es': 'Chihuahua'},
  '52658':{'en': 'Baja California', 'es': 'Baja California'},
  '52659':{'en': 'Chihuahua', 'es': 'Chihuahua'},
  '52660':{'en': 'Culiacan', 'es': u('Culiac\u00e1n')},
@@ -10019,4 +10018,5 @@ data = {
  '55493348':{'en': u('Uni\u00e3o do Oeste - SC'), 'pt': u('Uni\u00e3o do Oeste - SC')},
  '55493349':{'en': 'Irati - SC', 'pt': 'Irati - SC'},
  '55493351':{'en': 'Entre Rios - SC', 'pt': 'Entre Rios - SC'},
+ '55493353':{'en': 'Xaxim - SC', 'pt': 'Xaxim - SC'},
 }

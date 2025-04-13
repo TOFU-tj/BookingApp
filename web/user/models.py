@@ -17,6 +17,16 @@ class User(AbstractUser):
     company_name = models.CharField(max_length=255, blank=True, null=True)
     slug_username = models.SlugField(unique=True, blank=True, null=True)
     slug_company = models.SlugField(unique=False, blank=True, null=True)
+    name_and_surname = models.TextField()
+    
+    
+    def get_subscription_end_date(self):
+        """
+        Возвращает дату окончания подписки.
+        """
+        if self.subscription and self.subscription.end_date:
+            return self.subscription.end_date.strftime('%d.%m.%Y')
+        return "Нет активной подписки"
 
     def clean_username(self):
         if self.username:
@@ -35,11 +45,4 @@ class User(AbstractUser):
             self.slug_company = slugify(self.company_name)
 
         super().save(*args, **kwargs)
-
-    def delete_if_subscription_expired(self):
-        """
-        Удаляет пользователя, если подписка истекла.
-        """
-        if self.subscription and self.subscription.is_expired():
-            logger.info(f"Deleting user with expired subscription: {self.username}")
-            self.delete()
+        

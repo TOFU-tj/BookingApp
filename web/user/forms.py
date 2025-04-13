@@ -70,9 +70,6 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError("Пользователь с таким именем уже существует.")
         return username.lower()
     
-    
-
-    
     def clean_company_name(self):
         """
         Приводим название компании к нижнему регистру.

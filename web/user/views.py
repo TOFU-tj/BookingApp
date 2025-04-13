@@ -1,4 +1,5 @@
 from django.contrib.auth.views import LoginView
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
 from user.forms import UserLogInForm, UserRegistrationForm
 from django.contrib import auth
@@ -6,9 +7,10 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from user.models import User
 from subscription.models import TemporarySubscription
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+
 
 
 class UserLogIn(LoginView):
@@ -18,7 +20,6 @@ class UserLogIn(LoginView):
     def form_valid(self, form):
         user = form.get_user()
         if user.subscription and user.subscription.is_expired():
-            user.delete_if_subscription_expired()
             return redirect('subscription:subscription')  # Перенаправляем на страницу входа
         return super().form_valid(form)
     
@@ -31,7 +32,7 @@ class UserRegistrations(CreateView):
     template_name = "user/registration.html"
     form_class = UserRegistrationForm
     model = User
-    success_url = reverse_lazy('user:login')
+    success_url = reverse_lazy('user:login')  # Перенаправляем на страницу входа
 
     def form_valid(self, form):
         session_id = self.request.GET.get('session_id')
@@ -57,8 +58,7 @@ class UserRegistrations(CreateView):
             temp_subscription.is_active = False
             temp_subscription.save()
 
-            # Авторизуем пользователя
-            login(self.request, user)
+            # Не авторизуем пользователя автоматически
 
             return redirect(self.success_url)
 
@@ -66,11 +66,23 @@ class UserRegistrations(CreateView):
             return render(self.request, 'user/registration.html', {
                 'error': 'Подписка не найдена или уже использована.'
             })
-            
-@login_required
-def renew_subscription(request):
+
+
+
+
+def profile_view(request):
     user = request.user
-    if user.subscription and user.subscription.is_expired():
-        user.subscription.renew_subscription()
-        return redirect('user:profile')  # Перенаправляем на страницу профиля
-    return redirect('user:subscription_expired')
+    subscription = user.subscription
+
+    # Обновляем статус подписки, если она существует
+    if subscription:
+        subscription.update_status()
+
+    # Получаем данные для контекста
+    context = {
+        'user': user,
+        'subscription_end_date': subscription.end_date.strftime('%d.%m.%Y') if subscription and subscription.is_active else "Нет активной подписки",
+        'is_active': subscription.is_active if subscription else False,
+    }
+
+    return render(request, 'user/profile.html', context)
