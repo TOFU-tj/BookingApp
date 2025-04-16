@@ -11,7 +11,7 @@ class TemporarySubscription(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()  # Дата окончания подписки
     is_active = models.BooleanField(default=False)
-    activation_token = models.UUIDField(default=uuid.uuid4, unique=True)
+    activation_token = models.UUIDField(default=uuid.uuid4, unique=True, null=True, blank=True)
     
 
     

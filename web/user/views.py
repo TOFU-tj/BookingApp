@@ -1,5 +1,5 @@
 from django.contrib.auth.views import LoginView
-from django.views.generic import DetailView
+from django.core.mail import send_mail
 from django.views.generic.edit import CreateView
 from user.forms import UserLogInForm, UserRegistrationForm
 from django.contrib import auth
@@ -8,9 +8,10 @@ from django.http import HttpResponseRedirect
 from user.models import User
 from subscription.models import TemporarySubscription
 from django.shortcuts import render, redirect, get_list_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
+from user.tasks import send_activation_email
 
 
 class UserLogIn(LoginView):
@@ -42,21 +43,32 @@ class UserRegistrations(CreateView):
             })
 
         try:
-            # Находим временную подписку
             temp_subscription = TemporarySubscription.objects.get(
                 session_key=session_id,
                 is_active=False
             )
 
-            # Создаем пользователя
             user = form.save(commit=False)
             user.subscription = temp_subscription
             user.is_staff = True
             user.save()
 
-            # Активируем временную подписку
-            temp_subscription.is_active = True
-            temp_subscription.save()
+            # создаем activation_token если еще нет
+            if not temp_subscription.activation_token:
+                import uuid
+                temp_subscription.activation_token = uuid.uuid4()
+                temp_subscription.save()
+
+            activation_link = self.request.build_absolute_uri(
+                reverse('subscription:activate_subscription', args=[temp_subscription.activation_token])
+            )
+
+
+            send_activation_email.delay(
+                user.email,
+                user.username,
+                activation_link
+            )
 
             return redirect(self.success_url)
 
@@ -68,19 +80,18 @@ class UserRegistrations(CreateView):
 
 
 
+
+@login_required(login_url='user:login')  # если пользователь не залогинен — редирект на страницу логина
 def profile_view(request):
     user = request.user
     subscription = user.subscription
 
-    # Обновляем статус подписки, если она существует
     if subscription:
         subscription.update_status()
 
-    # Получаем данные для контекста
     context = {
         'user': user,
         'subscription_end_date': subscription.end_date.strftime('%d.%m.%Y') if subscription and subscription.is_active else "Нет активной подписки",
         'is_active': subscription.is_active if subscription else False,
     }
-
     return render(request, 'user/profile.html', context)

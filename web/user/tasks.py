@@ -1,14 +1,13 @@
 from celery import shared_task
-from subscription.models import TemporarySubscription
-from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings
 
 @shared_task
-def update_subscription_statuses():
-    """
-    Периодическая задача для обновления статусов подписок.
-    """
-    subscriptions = TemporarySubscription.objects.filter(is_active=True)
-    for subscription in subscriptions:
-        if subscription.is_expired():
-            subscription.is_active = False
-            subscription.save()
+def send_activation_email(email, username, activation_link):
+    send_mail(
+        subject='Активация вашей подписки',
+        message=f'Здравствуйте, {username}! Пожалуйста, подтвердите подписку, кликнув по ссылке: {activation_link}',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[email],
+        fail_silently=False,
+    )
