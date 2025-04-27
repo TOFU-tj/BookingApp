@@ -4,6 +4,7 @@ from services.models import ServiceModel
 from django.contrib.auth import get_user_model
 from schedule.models import TimeSlot , DaySchedule
 from django.urls import reverse
+from decimal import Decimal, InvalidOperation
 
 User = get_user_model()
 
@@ -23,13 +24,15 @@ class Basket(models.Model):
         return f"{self.service.name} для {self.executor.username}"
 
     def serialize(self):
-        """Сериализация данных для передачи в JSON."""
         return {
             "service": self.service.name,
             "quantity": self.quantity,
             "price": str(self.service.price),  # Преобразуем цену в строку для JSON
         }
-
+    
+    def sum(self): 
+        return self.service.price * self.quantity
+        
 
 
 
@@ -68,6 +71,21 @@ class SuccessModel(models.Model):
 
     def __str__(self):
         return f"Запись #{self.id}: {self.name.name} записан к {self.executor.username}"
+    
+    def get_record_sum(self):
+        """Возвращает сумму для конкретной записи"""
+        total = Decimal('0')
+        if not isinstance(self.basket_history, list):
+            return total
+            
+        for item in self.basket_history:
+            try:
+                price = Decimal(str(item.get('price', '0')))
+                quantity = int(item.get('quantity', 1))
+                total += price * quantity
+            except (TypeError, ValueError, InvalidOperation):
+                continue
+        return total
 
     def get_full_details(self):
         return {

@@ -119,6 +119,22 @@ body {
     box-shadow: 0 10px 20px rgba(255, 75, 43, 0.5);
 }
 
+.cart-total {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #9c0707;
+    border: 1px solid #ddd;
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cart-total-text {
+    margin: 0;
+}
+
+
+
 .back-btn:active {
     transform: scale(0.95);
 }

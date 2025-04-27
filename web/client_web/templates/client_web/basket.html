@@ -22,6 +22,7 @@
 
                         <!-- Форма для удаления товара из корзины -->
                         <form method="post" action="{% url 'client:basket_delete' slug_company=slug_company slug_username=slug_username item_id=item.id %}">
+
                             {% csrf_token %}
                             <button type="submit" class="cart-remove-btn">Удалить</button>
                         </form>
@@ -30,6 +31,13 @@
                     </div>
                 {% endfor %}
             </div>
+
+                        <!-- Отображение общей суммы -->
+            <div class="cart-total">
+                <p class="cart-total-text">Общая сумма: <strong>{{ total_sum }} руб.</strong></p>
+            </div>
+
+                        
 
                         <!-- Кнопка для перехода к оформлению -->
             <div class="continue-button-container">

@@ -9,6 +9,13 @@
 {% include "main_page/base.html" %}
     <div class="record-container">
         <h2 class="record-title">📌 Все записи клиентов</h2>
+        
+        <!-- Общая сумма ВНЕ цикла (показывается один раз) -->
+        {% if total_sum > 0 %}
+        <div class="total-summary">
+            <h3>💰 Общая сумма всех записей: {{ total_sum|floatformat:2 }} руб.</h3>
+        </div>
+        {% endif %}
 
         {% if records %}
             {% for record in records %}
@@ -29,11 +36,15 @@
                         <h3 class="section-title">🛍 Выбранные услуги</h3>
                         <ul class="services-list">
                             {% for item in record.basket_history %}
-                                <li>{{ item.service }} — {{ item.quantity }} шт. ({{ item.price }})</li>
+                                <li>{{ item.service }} — {{ item.quantity }} шт. ({{ item.price|floatformat:2 }} руб.)</li>
                             {% empty %}
                                 <li>Нет услуг.</li>
                             {% endfor %}
                         </ul>
+                        <!-- Сумма для текущей записи -->
+                        <div class="record-sum">
+                            <strong>Сумма записи:</strong> {{ record.get_record_sum|floatformat:2 }} руб.
+                        </div>
                     </div>
 
                     <!-- Дата и время записи -->
@@ -56,7 +67,4 @@
             <p class="no-records">❌ Нет записей клиентов.</p>
         {% endif %}
     </div>
-{% endblock %}
-
-{% block extra_js %}
 {% endblock %}

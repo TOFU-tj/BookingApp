@@ -7,8 +7,11 @@ from client_web.models import SuccessModel
 from main_page.forms import UserBlankForm
 from main_page.tasks import send_email_task
 from django.contrib.auth.decorators import login_required
+from decimal import Decimal, InvalidOperation
 
-class OrderViews( ListView):
+
+
+class OrderViews(ListView):
     model = SuccessModel
     template_name = 'main_page/main.html'
     context_object_name = "records"
@@ -16,16 +19,23 @@ class OrderViews( ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             return SuccessModel.objects.filter(executor=self.request.user).select_related('name', 'executor')
-        return SuccessModel.objects.none()  # Возвращаем пустой QuerySet для неаутентифицированных пользователей
-        
+        return SuccessModel.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        records = self.get_queryset()
-        context["records"] = records
-
+        records = context['records']  # Используем уже полученные записи из контекста
+        
+        # Рассчитываем общую сумму всех записей
+        total_sum = Decimal('0')
+        for record in records:
+            if hasattr(record, 'get_record_sum'):  # Проверяем наличие метода
+                try:
+                    total_sum += record.get_record_sum()
+                except (TypeError, ValueError, InvalidOperation):
+                    continue
+        
+        context["total_sum"] = total_sum
         return context
-    
     
 class RecordDeleteView(DeleteView):
     model = SuccessModel

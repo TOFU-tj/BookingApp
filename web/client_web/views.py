@@ -52,6 +52,7 @@ class BasketTemplateView(ListView):
             service__user__username=slug_username,
             session_key=session_key
         ).select_related('service', 'executor')  # Оптимизация запросов
+        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,6 +61,13 @@ class BasketTemplateView(ListView):
 
         # Передаём текущего исполнителя
         context['executor'] = get_object_or_404(User, username=self.kwargs['slug_username'])
+        
+        total_sum = sum(
+            item.service.price * item.quantity
+            for item in context['basket']  # Используем уже полученный QuerySet из контекста
+        )
+        context['total_sum'] = total_sum 
+        
         return context
 
 
@@ -82,7 +90,7 @@ def add_to_basket(request, slug_company, slug_username, item_id):
     )
 
     if not created:
-        basket_item.quantity += 1
+        basket_item.quantity = 1
         basket_item.save()
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
@@ -280,6 +288,11 @@ class UserFormView(CreateView):
         selected_date = success_record.time_history.get("selected_date", "Не указана")
         selected_time_slot = success_record.time_history.get("selected_time_slot", "Не указано")
         
+        total_sum = sum(
+            float(item['price']) * item['quantity'] 
+            for item in success_record.basket_history
+        )
+        
         message = (
             f"Здравствуйте, {user_form.name}!\n\n"
             f"Вы успешно записались на услугу.\n"
@@ -289,9 +302,14 @@ class UserFormView(CreateView):
             f"Список услуг:\n"
         )
         
+            
+        
         # Добавляем список услуг
         for item in success_record.basket_history:
             message += f"- {item['service']} (Количество: {item['quantity']}, Цена: {item['price']})\n"
+            
+            message += f"\nОбщая сумма: {total_sum:.2f}\n"
+                
 
         # Отправляем письмо через Celery
         send_email_task.delay(
