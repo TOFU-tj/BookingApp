@@ -8,12 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class User(AbstractUser):
-    subscription = models.OneToOneField(
-        TemporarySubscription,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
+    subscription = models.OneToOneField(TemporarySubscription,on_delete=models.SET_NULL,null=True,blank=True)
     company_name = models.CharField(max_length=255, blank=True, null=True)
     slug_username = models.SlugField(unique=True, blank=True, null=True)
     slug_company = models.SlugField(unique=False, blank=True, null=True)

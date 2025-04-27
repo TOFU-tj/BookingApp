@@ -98,24 +98,9 @@ class SuccessModel(models.Model):
     
 class ClientSchedule(models.Model):
     
-    executor = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        null=True, 
-        blank=True  # Разрешаем пустые значения
-    )
-    date = models.ForeignKey(
-        DaySchedule, 
-        on_delete=models.CASCADE, 
-        null=True, 
-        blank=True
-    )
-    time_slot = models.ForeignKey(
-        TimeSlot, 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        blank=True
-    )
+    executor = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True )
+    date = models.ForeignKey(DaySchedule, on_delete=models.CASCADE, null=True, blank=True)
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True, blank=True)
     session_key = models.CharField(max_length=40, blank=True, null=True)
 
     class Meta:
