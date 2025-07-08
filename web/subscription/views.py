@@ -36,7 +36,7 @@ def create_checkout_session(request):
         print(f"Price ID: {price_id}")
         print(f"Stripe Checkout URL: {checkout_session.url}")
 
-        # Создаем временную подписку
+        
         subscription = TemporarySubscription.objects.create(
             session_key=checkout_session.id,
             subscription_type="basic",
@@ -44,12 +44,12 @@ def create_checkout_session(request):
             is_active=False
         )
 
-        # Генерируем ссылку для активации
+        
         activation_link = request.build_absolute_uri(
             reverse('subscription:activate_subscription', args=[subscription.activation_token])
         )
 
-        # Отправляем письмо с ссылкой активации
+        
         send_mail(
             subject='Активация вашей подписки',
             message=f'Спасибо за покупку! Пожалуйста, активируйте подписку по ссылке: {activation_link}',
@@ -76,20 +76,18 @@ def activate_subscription(request, token):
 
 
 def cancel_subscription(request, pk):
-    """
-    Отменяет подписку пользователя.
-    """
+
     user = request.user
     if not user.is_authenticated:
         messages.error(request, "Вы должны быть авторизованы для отмены подписки.")
         return redirect(reverse('user:profile'))
 
     try:
-        # Находим подписку, связанную с текущим пользователем
+       
         subscription = get_object_or_404(
             TemporarySubscription,
             id=pk,
-            user=user  # Убедитесь, что подписка принадлежит текущему пользователю
+            user=user 
         )
     except TemporarySubscription.DoesNotExist:
         messages.error(request, "Подписка не найдена или уже отменена.")

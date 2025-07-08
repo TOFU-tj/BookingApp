@@ -16,12 +16,10 @@ class User(AbstractUser):
     
     
     def get_subscription_end_date(self):
-        """
-        Возвращает дату окончания подписки.
-        """
+
         if self.subscription and self.subscription.end_date:
             return self.subscription.end_date.strftime('%d.%m.%Y')
-        return "Нет активной подписки"
+        return 
 
     def clean_username(self):
         if self.username:

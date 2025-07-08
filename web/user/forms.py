@@ -71,9 +71,7 @@ class UserRegistrationForm(UserCreationForm):
         return username.lower()
     
     def clean_company_name(self):
-        """
-        Приводим название компании к нижнему регистру.
-        """
+
         company_name = self.cleaned_data.get('company_name')
         if ' ' in company_name:
             raise ValidationError("Название компании не должно содержать пробелы.")
@@ -82,18 +80,12 @@ class UserRegistrationForm(UserCreationForm):
         return company_name.lower()
     
     def clean_email(self):
-        """
-        Приводим email к нижнему регистру.
-        """
         email = self.cleaned_data.get('email')
         if User.objects.filter(email__iexact=email).exists():
             raise ValidationError("Пользователь с таким email уже существует.")
         return email.lower()
     
     def save(self, commit=True):
-        """
-        Сохраняем пользователя с нормализованными данными.
-        """
         user = super().save(commit=False)
         user.username = self.cleaned_data['username'].lower()
         user.email = self.cleaned_data['email'].lower()
